@@ -1,0 +1,2241 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "CAREDA Api Definition",
+    "description": "API for accessing and managing student API",
+    "contact": {
+      "email": "hopegolestany@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://qb.omidgolestani.ir/api/student/v1"
+    },
+    {
+      "url": "http://localhost:8010/api/student/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Student Authentication",
+      "description": "Apis required for student authentication"
+    },
+    {
+      "name": "Student Tag Management",
+      "description": "Apis required for student tag management"
+    },
+    {
+      "name": "Student Own",
+      "description": "Apis required for student to manage own information"
+    },
+    {
+      "name": "Student Quiz Management",
+      "description": "Apis required for student to get quizzes"
+    }
+  ],
+  "paths": {
+    "/free/sessions": {
+      "post": {
+        "tags": [
+          "Student Authentication"
+        ],
+        "summary": "Sending username and password to receive access token for student",
+        "description": "In order to use the api, users are required to authenticate in order to access regarding apis.",
+        "requestBody": {
+          "description": "Data transfer object for authentication",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostStudentSession"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation, returning a data transfer object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSession"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any genric error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid Auth supplied, result in error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags": {
+      "get": {
+        "tags": [
+          "Student Tag Management"
+        ],
+        "summary": "Get tags by category id",
+        "description": "Get all tags of one category. can supply optional parameter to receive files",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "category-id",
+            "description": "Tag cageory id, it must be supplied",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "with-image",
+            "description": "If images is required, set this optional parameter true",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "example": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If with-image parameter is false, the result is application/json, otherwise the result is a multipart with part name=data containing tags and name=file-{id} where id is primary key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStudentTag"
+                  }
+                }
+              },
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/GetStudentTag"
+                    },
+                    "file-id": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/tags/search": {
+      "get": {
+        "tags": [
+          "Student Tag Management"
+        ],
+        "summary": "Search tags by title",
+        "description": "Search all the tags with given title",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "Pagination skip",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Pagination limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 5
+            }
+          },
+          {
+            "in": "query",
+            "name": "with-image",
+            "description": "If images is required, set this optional parameter true",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "example": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "description": "Tag title to search for",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Math"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If with-image parameter is false, the result is application/json, otherwise the result is a multipart with part name=data containing tags and name=file-{id} where id is primary key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStudentTag"
+                  }
+                }
+              },
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/GetStudentTag"
+                    },
+                    "file-id": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/tag-categories": {
+      "get": {
+        "tags": [
+          "Student Tag Management"
+        ],
+        "summary": "Get tag categories",
+        "description": "Get page of tag categories. can supply optional parameter to receive files/images",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "Pagination skip",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Pagination limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 5
+            }
+          },
+          {
+            "in": "query",
+            "name": "with-tag",
+            "description": "If supplied, Array of FullCategoryDto will be returned, containing categories with related tags.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "example": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "with-image",
+            "description": "If images is required, set this optional parameter true. The result will be in a multipart format.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "example": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the operation was success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/GetStudentFullTagCategory"
+                      }
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/GetStudentTagCategory"
+                      }
+                    }
+                  ]
+                }
+              },
+              "multipart/form-data": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/GetStudentFullTagCategory"
+                        },
+                        "catFile-id": {
+                          "type": "string",
+                          "format": "binary"
+                        },
+                        "tagFile-id": {
+                          "type": "string",
+                          "format": "binary"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/GetStudentTagCategory"
+                        },
+                        "file-id": {
+                          "type": "string",
+                          "format": "binary"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/tag-categories/search": {
+      "get": {
+        "tags": [
+          "Student Tag Management"
+        ],
+        "summary": "Search tag categories by title",
+        "description": "Search all the tag categories with given title",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "Pagination skip",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Pagination limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 5
+            }
+          },
+          {
+            "in": "query",
+            "name": "with-image",
+            "description": "If images is required, set this optional parameter true",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "example": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "description": "Tag title to search for",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Math"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If with-image parameter is false, the result is application/json, otherwise the result is a multipart with part name=data containing tag categories and name=file-{id} where id is primary key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStudentTag"
+                  }
+                }
+              },
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/GetStudentTag"
+                    },
+                    "file-id": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/tag-or-categories/search": {
+      "get": {
+        "tags": [
+          "Student Tag Management"
+        ],
+        "summary": "Search tags or categories by title",
+        "description": "Search all the tags or categories with given title",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "Pagination skip",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Pagination limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 5
+            }
+          },
+          {
+            "in": "query",
+            "name": "with-image",
+            "description": "If images is required, set this optional parameter true",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "example": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "description": "Tag title to search for",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Math"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If with-image parameter is false, images will not be included, notice all jsons are in array format",
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "tagData": {
+                          "$ref": "#/components/schemas/GetStudentTag"
+                        },
+                        "catData": {
+                          "$ref": "#/components/schemas/GetStudentTagCategory"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "tagData": {
+                          "$ref": "#/components/schemas/GetStudentTag"
+                        },
+                        "catData": {
+                          "$ref": "#/components/schemas/GetStudentTagCategory"
+                        },
+                        "tagFile-id": {
+                          "type": "string",
+                          "format": "binary"
+                        },
+                        "catFile-id": {
+                          "type": "string",
+                          "format": "binary"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/own/base-info": {
+      "put": {
+        "tags": [
+          "Student Own"
+        ],
+        "summary": "Changing student own basic information",
+        "description": "Change basic information like phone, firstname,lastname , ....",
+        "requestBody": {
+          "description": "Data transfer object for changing basic info",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PutStudentBaseInfo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Any genric error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Student Own"
+        ],
+        "summary": "Get own info",
+        "description": "This api is used to get own information",
+        "responses": {
+          "200": {
+            "description": "The operation was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetStudentOwn"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/own/quiz-results": {
+      "get": {
+        "tags": [
+          "Student Own"
+        ],
+        "summary": "Get own  quiz results",
+        "description": "This api is used to get own  quiz results, in decending date  order",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "Pagination skip",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Pagination limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "quiz-id",
+            "description": "Query by quiz id",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetQuizResult"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/own/quiz-statistics/categories": {
+      "get": {
+        "tags": [
+          "Student Own"
+        ],
+        "summary": "Get own  quiz statistic in form of categories",
+        "description": "This api is used to get own  quiz results",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "with-image",
+            "description": "Including category images",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "example": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "cat-id",
+            "description": "Get specefic by cat id",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If with-image parameter is false, images will not be included, notice all jsons are in array format, notice it won't return an array is cat-id is givn",
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "statistic": {
+                          "$ref": "#/components/schemas/GetQuizStatisticByCategory"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "statistic": {
+                          "$ref": "#/components/schemas/GetQuizStatisticByCategory"
+                        },
+                        "tag-category-image-id": {
+                          "type": "string",
+                          "format": "binary"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/own/quiz-statistics/quizzes": {
+      "get": {
+        "tags": [
+          "Student Own"
+        ],
+        "summary": "Get own  quiz statistic in form of quizzes",
+        "description": "Get own  quiz statistic in form of quizzes",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cat-id",
+            "description": "Get specefic by cat id",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "Pagination skip",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Pagination limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "hratio",
+            "description": "More than this percentage in form of number",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "lratio",
+            "description": "Less than this percentage in form of number",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return an array of given data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetQuizStatisticByQuiz"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/own/favorite/tag-categories": {
+      "post": {
+        "tags": [
+          "Student Own"
+        ],
+        "summary": "Post new favorite categories",
+        "description": "Adding new favorite categories, this operation is idempotent.",
+        "requestBody": {
+          "description": "Data transfer object for changing basic info",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int32",
+                  "example": 1
+                },
+                "example": [
+                  1,
+                  2,
+                  3,
+                  4
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Any genric error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Student Own"
+        ],
+        "summary": "Put student favorite categories",
+        "description": "Set all of student favorite categories at once",
+        "requestBody": {
+          "description": "Data transfer object for changing basic info",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int32",
+                  "example": 1
+                },
+                "example": [
+                  1,
+                  2,
+                  3,
+                  4
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Any genric error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Student Own"
+        ],
+        "summary": "Delete student favorite categories",
+        "description": "Remove part of student favorite categories",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ids",
+            "type": "array",
+            "style": "simple",
+            "explode": false,
+            "items": {
+              "type": "integer"
+            },
+            "example": [
+              1,
+              2
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Any genric error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/quizzes": {
+      "get": {
+        "tags": [
+          "Student Quiz Management"
+        ],
+        "summary": "Get quizzes",
+        "description": "Get page of quizzes.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "Pagination skip",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Pagination limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "tag-id",
+            "description": "speceify tag id to get quizzes with given tag ids",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the operation was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetQuizInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/quizzes/{id}": {
+      "get": {
+        "tags": [
+          "Student Quiz Management"
+        ],
+        "summary": "Get a quiz by id",
+        "description": "Get a quiz by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "quiz primary key",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the operation was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuizInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/quizzes/{id}/questions": {
+      "get": {
+        "tags": [
+          "Student Quiz Management"
+        ],
+        "summary": "Get a quiz questions by id, level and count",
+        "description": "Get a quiz questions by id, level and count.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "quiz primary key",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Number of questions",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "level",
+            "description": "Number of questions",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Normal"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the operation was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuizQuestions"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/quizzes/{id}/answers": {
+      "post": {
+        "tags": [
+          "Student Quiz Management"
+        ],
+        "summary": "Send quiz answers",
+        "description": "Send quiz answers and get result",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "quiz primary key",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Data transfer object for authentication",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostQuizAnswers"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "If the operation was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuizResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/quizzes/tags/{id}": {
+      "get": {
+        "tags": [
+          "Student Quiz Management"
+        ],
+        "summary": "Get a quiz by given tag id",
+        "description": "Get a quiz by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "tag primary key",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the operation was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuizInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    },
+    "/quizzes/tags/category/{id}": {
+      "get": {
+        "tags": [
+          "Student Quiz Management"
+        ],
+        "summary": "Get a quiz by given category id",
+        "description": "Get a quiz by category id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "category primary key",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the operation was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuizInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any possible issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "student_auth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GenericErrorCode": {
+        "type": "string",
+        "enum": [
+          "InvalidAuthInfo",
+          "SessionExpired",
+          "BannedIntegrityFailed",
+          "UnknownFormat",
+          "ValidationError",
+          "MissingAuth",
+          "Banned",
+          "ServerError",
+          "MissingDefaults",
+          "NotFound",
+          "AdminUsernameUniqueFailed",
+          "UserUsernameUniqueFailed",
+          "MalformMultipart",
+          "AccessDenied",
+          "YouAreNotActive",
+          "UnknownSearchFieldID",
+          "FileDoesNotExist"
+        ]
+      },
+      "UserErrorCode": {
+        "type": "string",
+        "enum": [
+          "RepeatedUsername",
+          "RoleNotFound",
+          "RepeatedRoleTitle",
+          "RoleDeleteForeignKeyFailed",
+          "TaskUniqueUserTaskFailed",
+          "TaskNotFound",
+          "TaskForeignKeyFailed",
+          "UserNotFound",
+          "WrongCurrentPassword",
+          "CodeAlreadyInProgress",
+          "TooManyCodeRequest",
+          "CodeRequestNotFound",
+          "PhoneAlreadyVerified",
+          "InvalidCodeCheck",
+          "FileIsPrivate",
+          "FileIsRemovedPhysically",
+          "DocumentNotFound",
+          "ActivityNotFound",
+          "NoteNotFound",
+          "MessageReceiverNotFound",
+          "MessageNotFound",
+          "IdentitcalMessageEndpoint",
+          "CouldNotRestoreDb"
+        ]
+      },
+      "StudentErrorCode": {
+        "type": "string",
+        "enum": [
+          "EmailAlreadyRegistered",
+          "OtpRequestWasNotFound",
+          "WrongOtp",
+          "OtpTimeExpired",
+          "OtpExpired",
+          "UniqueCategoryTitleFailed",
+          "StudentNotFound",
+          "UsernameIsNotUnique",
+          "EmailHasNotBeenFound",
+          "TagCategoryWasNotFound",
+          "UniqueTagTitleFailed",
+          "TagWasNotFound",
+          "TagCategoryMismatch",
+          "QuizWasNotFound",
+          "MediaWasNotFound",
+          "QuizNameIsNotUnique",
+          "CannotEnableQuiz",
+          "CannotDisableQuiz",
+          "QuestionWasNotFound",
+          "TrueFalseWasNotFound",
+          "MultipleChoiceDefinitionWasNotFound",
+          "McdChoicesWasNotFound",
+          "FillInTheBlankWasNotFound",
+          "FbAnswersWasNotFound",
+          "ConnectPairsWasNotFound",
+          "ConnectPairsWasNotFound",
+          "NotEnoughWantedQuestionWithGivenLevel",
+          "QuizIsNotEnabled",
+          "NotEnoughWantedQuestions",
+          "UnknownQuizId"
+        ]
+      },
+      "ErrorCode": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GenericErrorCode"
+          },
+          {
+            "$ref": "#/components/schemas/UserErrorCode"
+          },
+          {
+            "$ref": "#/components/schemas/StudentErrorCode"
+          }
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ErrorCode"
+          },
+          "message": {
+            "type": "string",
+            "example": "please read the error code"
+          }
+        }
+      },
+      "GetSession": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "some random long text"
+          },
+          "expireTime": {
+            "type": "integer",
+            "description": "unix time in milisecond",
+            "format": "int64",
+            "example": 1636956080121
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32",
+            "example": 189
+          },
+          "username": {
+            "type": "string",
+            "example": "admin"
+          }
+        }
+      },
+      "PostStudentSession": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "minLength": 1,
+            "format": "email",
+            "example": "student@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500,
+            "format": "password"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "GetStudentTag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Tag primary key",
+            "format": "int32",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "description": "Tag title",
+            "example": "Dynamics"
+          },
+          "tagCategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "example": 2
+          },
+          "isFavorite": {
+            "type": "boolean",
+            "description": "Whether this tag is student favorite or not",
+            "example": true
+          }
+        }
+      },
+      "GetStudentTagCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Tag Category primary key",
+            "format": "int32",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "description": "Tag Category title",
+            "example": "Math"
+          },
+          "isFavorite": {
+            "type": "boolean",
+            "description": "Whether this tag-category is a student favorite or not",
+            "example": true
+          }
+        }
+      },
+      "GetStudentFullTagCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Tag Category primary key",
+            "format": "int32",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "description": "Tag Category title",
+            "example": "Math"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetQuizInfo/properties/tags/items"
+            }
+          },
+          "isFavorite": {
+            "type": "boolean",
+            "description": "Whether this category is student favorite or not",
+            "example": true
+          }
+        }
+      },
+      "PutStudentBaseInfo": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string",
+            "description": "user's firstname",
+            "example": "William"
+          },
+          "username": {
+            "type": "string",
+            "description": "user's username, must be ascii",
+            "example": "WilRik58"
+          },
+          "lastname": {
+            "type": "string",
+            "description": "user's lastname",
+            "example": "Riker"
+          },
+          "middlename": {
+            "type": "string",
+            "description": "user's middlename",
+            "example": "Thomas"
+          },
+          "phone": {
+            "type": "string",
+            "example": 989170965458,
+            "description": "Must be atleast 3 chars",
+            "minLength": 3,
+            "maxLength": 20
+          },
+          "favoriteCategories": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        "required": [
+          "firstname",
+          "lastname",
+          "username"
+        ]
+      },
+      "GetStudentOwn": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string",
+            "description": "user's firstname",
+            "example": "William"
+          },
+          "username": {
+            "type": "string",
+            "description": "user's username, must be ascii",
+            "example": "WilRik58"
+          },
+          "lastname": {
+            "type": "string",
+            "description": "user's lastname",
+            "example": "Riker"
+          },
+          "middlename": {
+            "type": "string",
+            "description": "user's middlename",
+            "example": "Thomas"
+          },
+          "phone": {
+            "type": "string",
+            "example": 989170965458,
+            "description": "Must be atleast 3 chars",
+            "minLength": 3,
+            "maxLength": 20
+          },
+          "favoriteCategories": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "email": {
+            "type": "string",
+            "example": "admin@gmail.com"
+          }
+        }
+      },
+      "GetQuizInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Quiz primary key",
+            "format": "int32",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "Quiz name",
+            "example": "Base 2 Test"
+          },
+          "length": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Length of quiz in second",
+            "example": 256
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "VeryEasy",
+              "Easy",
+              "Normal",
+              "Hard",
+              "VeryHard"
+            ]
+          },
+          "video": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Media primary key",
+                "format": "int32",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "description": "Media name",
+                "example": "Base 2 Test"
+              },
+              "description": {
+                "type": "string",
+                "description": "Media description",
+                "example": "Some information about this media"
+              }
+            }
+          },
+          "voice": {
+            "$ref": "#/components/schemas/GetQuizInfo/properties/video"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Tag primary key",
+                  "format": "int32",
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Tag title",
+                  "example": "Dynamics"
+                },
+                "tagCategoryId": {
+                  "type": "integer",
+                  "format": "int32",
+                  "example": 2
+                }
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "Quiz description",
+            "example": "Some information about this media"
+          }
+        }
+      },
+      "GetQuizQuestions": {
+        "type": "object",
+        "properties": {
+          "trueFalses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1000,
+                  "example": "Is there any temperature below 300 kelvin?"
+                },
+                "answer": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "level": {
+                  "type": "string",
+                  "enum": {
+                    "$ref": "#/components/schemas/GetQuizInfo/properties/level/enum"
+                  }
+                },
+                "type": {
+                  "type": "string",
+                  "enum": {
+                    "$ref": "#/paths/~1quizzes~1%7Bid%7D~1questions/get/responses/200/content/application~1json/schema/properties/connects/items/properties/type/enum"
+                  },
+                  "example": "TrueFalse"
+                },
+                "length": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "maxLength": 1200,
+                  "description": "Answer time in seconds"
+                }
+              }
+            }
+          },
+          "multipleChoiceDefinitions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1000,
+                  "example": "Which one is the correct answer?"
+                },
+                "answerOrder": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "description": "Answer order, which is the number given to the choices",
+                  "example": 1
+                },
+                "type": {
+                  "type": "string",
+                  "enum": {
+                    "$ref": "#/paths/~1quizzes~1%7Bid%7D~1questions/get/responses/200/content/application~1json/schema/properties/connects/items/properties/type/enum"
+                  },
+                  "example": "MultipleChoiceDefinition"
+                },
+                "level": {
+                  "type": "string",
+                  "enum": {
+                    "$ref": "#/components/schemas/GetQuizInfo/properties/level/enum"
+                  },
+                  "example": "Normal"
+                },
+                "choices": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "example": "Algebra"
+                      },
+                      "order": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "example": 0
+                      }
+                    }
+                  },
+                  "minItems": 2,
+                  "maxItems": 100
+                },
+                "length": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "maxLength": 1200,
+                  "description": "Answer time in second",
+                  "example": 200
+                }
+              }
+            }
+          },
+          "fillInTheBlanks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1000,
+                  "example": "Which one is the correct answer?"
+                },
+                "level": {
+                  "type": "string",
+                  "enum": {
+                    "$ref": "#/components/schemas/GetQuizInfo/properties/level/enum"
+                  },
+                  "example": "Normal"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": {
+                    "$ref": "#/paths/~1quizzes~1%7Bid%7D~1questions/get/responses/200/content/application~1json/schema/properties/connects/items/properties/type/enum"
+                  },
+                  "example": "FillInTheBlank"
+                },
+                "answers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Answer",
+                    "example": "Math"
+                  },
+                  "minItems": 1
+                },
+                "length": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "maxLength": 1200,
+                  "description": "Answer time in second",
+                  "example": 200
+                }
+              }
+            }
+          },
+          "connects": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1000,
+                  "example": "Which one is the correct answer?"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "Connect",
+                    "FillInTheBlank",
+                    "TrueFalse",
+                    "MultipleChoiceDefinition"
+                  ],
+                  "example": "Connect"
+                },
+                "level": {
+                  "type": "string",
+                  "enum": {
+                    "$ref": "#/components/schemas/GetQuizInfo/properties/level/enum"
+                  },
+                  "example": "Normal"
+                },
+                "keys": {
+                  "type": "string",
+                  "example": "Odd"
+                },
+                "values": {
+                  "type": "string",
+                  "example": 1
+                },
+                "length": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "maxLength": 1200,
+                  "description": "Answer time in second",
+                  "example": 200
+                }
+              }
+            }
+          }
+        }
+      },
+      "PostQuizAnswers": {
+        "type": "object",
+        "properties": {
+          "trueFalseAnswers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "example": 1
+                },
+                "answer": {
+                  "type": "boolean",
+                  "example": false
+                }
+              },
+              "required": [
+                "answer",
+                "id"
+              ]
+            }
+          },
+          "multipleChoiceDefinitionAnswers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "example": 1
+                },
+                "answerOrder": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "description": "Answer order, which is the number given to the choices",
+                  "example": 1
+                }
+              },
+              "required": [
+                "answerOrder",
+                "id"
+              ]
+            }
+          },
+          "fillInTheBlankAnswers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "example": 1
+                },
+                "answer": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1000,
+                  "example": "Math"
+                }
+              },
+              "required": [
+                "answer",
+                "id"
+              ]
+            }
+          },
+          "connectAnswers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "minLength": 1,
+                  "example": 1
+                },
+                "keys": {
+                  "type": "string",
+                  "example": "Odd"
+                },
+                "values": {
+                  "type": "string",
+                  "example": 1
+                }
+              },
+              "required": [
+                "keys",
+                "values",
+                "id"
+              ]
+            }
+          }
+        }
+      },
+      "GetQuizResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Result primary key",
+            "format": "int32",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "quiz name",
+            "example": "Base 2 Test"
+          },
+          "quizId": {
+            "type": "integer",
+            "description": "Quiz primary key",
+            "format": "int32",
+            "example": 1
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total questions",
+            "format": "int32",
+            "example": 1
+          },
+          "correct": {
+            "type": "integer",
+            "description": "Correct answers count",
+            "format": "int32",
+            "example": 1
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "date of quiz",
+            "example": "2014-05-16T12:28:06.801Z"
+          }
+        }
+      },
+      "GetQuizStatisticByCategory": {
+        "type": "object",
+        "properties": {
+          "tagCategory": {
+            "$ref": "#/components/schemas/GetStudentTagCategory"
+          },
+          "totalQuestions": {
+            "type": "integer",
+            "description": "Total questions",
+            "format": "int32",
+            "minimum": 0
+          },
+          "totalCorrectAnswers": {
+            "type": "integer",
+            "description": "Total correct answers",
+            "format": "int32",
+            "minimum": 0
+          },
+          "totalParticipation": {
+            "type": "integer",
+            "description": "Total participation in quizzes",
+            "format": "int32",
+            "minimum": 0
+          }
+        }
+      },
+      "GetQuizStatisticByQuiz": {
+        "type": "object",
+        "properties": {
+          "quiz": {
+            "$ref": "#/components/schemas/GetQuizInfo"
+          },
+          "totalQuestions": {
+            "type": "integer",
+            "description": "Total questions",
+            "format": "int32",
+            "minimum": 0
+          },
+          "totalCorrectAnswers": {
+            "type": "integer",
+            "description": "Total correct answers",
+            "format": "int32",
+            "minimum": 0
+          },
+          "totalParticipation": {
+            "type": "integer",
+            "description": "Total participation in quizzes",
+            "format": "int32",
+            "minimum": 0
+          },
+          "bestQuizResult": {
+            "$ref": "#/components/schemas/GetQuizResult"
+          },
+          "worstQuizResult": {
+            "$ref": "#/components/schemas/GetQuizResult"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "student_auth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Branca"
+      }
+    }
+  }
+}
