@@ -123,7 +123,7 @@ func (r UuidRepository[T]) Update(ctx context.Context, entity *T) (err error) {
 	v := *entity
 
 	if v.IsIdEmpty() {
-		panic("save required id")
+		return errors.New("entity can not update without id")
 	}
 
 	err = r.db.WithContext(ctx).Save(entity).Error
