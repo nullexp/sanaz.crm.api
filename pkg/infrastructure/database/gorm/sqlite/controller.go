@@ -106,7 +106,6 @@ func (d *SqliteController) Init() error {
 	for _, v := range d.entityDefinitions {
 
 		err = context.AutoMigrate(&v)
-
 		if err != nil {
 			return err
 		}

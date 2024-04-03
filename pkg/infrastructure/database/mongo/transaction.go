@@ -47,7 +47,6 @@ func (t *Transaction) Begin() error {
 	t.session = session
 
 	err = t.session.StartTransaction(options.Transaction().SetWriteConcern(writeconcern.New(writeconcern.WMajority())))
-
 	if err != nil {
 
 		t.session.EndSession(context.Background())
@@ -93,7 +92,6 @@ func (t *Transaction) Commit() error {
 	if err != nil {
 
 		err = t.session.AbortTransaction(context.Background())
-
 		if err != nil {
 			return err
 		}

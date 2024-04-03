@@ -28,7 +28,6 @@ func DbControllerUuidGenericRepository() protocol.DatabaseController {
 	}
 
 	err = controller.Init() // Create tables
-
 	if err != nil {
 		panic(err)
 	}

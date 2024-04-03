@@ -91,7 +91,6 @@ func (md *PgDatabase) open() error {
 	preloadPlugin := &PreloadAllPlugin{}
 
 	err = preloadPlugin.Initialize(db)
-
 	if err != nil {
 		return err
 	}
@@ -116,7 +115,6 @@ func (md *PgDatabase) OpenRaw() error {
 	preloadPlugin := &PreloadAllPlugin{}
 
 	err = preloadPlugin.Initialize(db)
-
 	if err != nil {
 		return err
 	}

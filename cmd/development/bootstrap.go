@@ -2,7 +2,6 @@ package main
 
 // import "git.omidgolestani.ir/clinic/crm.api/internal/factory"
 
-func initializeApi() {
-
+func InitializeApi() {
 	// api := factory.NewApi(factory.Gin)
 }

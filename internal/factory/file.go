@@ -7,8 +7,10 @@ import (
 	fileProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
 )
 
-const Memory = "memory"
-const Disk = "disk"
+const (
+	Memory = "memory"
+	Disk   = "disk"
+)
 
 func NewImageStorage(name string, param ...any) fileProtocol.ImageStorage {
 	if name == "" {

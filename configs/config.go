@@ -1,9 +1,11 @@
 package configs
 
-import "github.com/spf13/viper"
+import (
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/log"
+	"github.com/spf13/viper"
+)
 
 func init() {
-
 }
 
 func ReadConfig() (out Config) {
@@ -14,7 +16,10 @@ func ReadConfig() (out Config) {
 		panic(err)
 	}
 
-	viper.Unmarshal(&out)
+	err = viper.Unmarshal(&out)
+	if err != nil {
+		log.Error.Fatal(err)
+	}
 	return
 }
 

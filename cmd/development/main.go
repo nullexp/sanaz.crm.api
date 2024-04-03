@@ -12,7 +12,6 @@ func init() {
 }
 
 func main() {
-
 	log.Info.Println("initializing server")
 
 	conf := configs.ReadConfig()

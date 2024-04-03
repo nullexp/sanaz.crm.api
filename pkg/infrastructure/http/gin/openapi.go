@@ -356,7 +356,6 @@ func assignPaths(src map[string]any, modules []httpapi.Module) (err error) {
 				return
 			}
 			pathMethods[openapiMethod], err = getMethod(handler, v.GetTag())
-
 			if err != nil {
 				return
 			}

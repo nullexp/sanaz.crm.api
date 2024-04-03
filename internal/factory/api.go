@@ -7,14 +7,17 @@ import (
 	http "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
 )
 
-const Test = "test"
-const Gin = "gin"
+const (
+	Test = "test"
+	Gin  = "gin"
+)
 
-var ErrNotImplemented = errors.New("not implemented")
-var ErrMissingParameter = errors.New("missing parameter")
+var (
+	ErrNotImplemented   = errors.New("not implemented")
+	ErrMissingParameter = errors.New("missing parameter")
+)
 
 func NewApi(name string, param ...any) http.Api {
-
 	if name == "" {
 		name = Test
 	}
