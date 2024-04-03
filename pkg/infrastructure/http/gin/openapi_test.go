@@ -7,10 +7,10 @@ import (
 	"testing"
 	"time"
 
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/openapi"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/stretchr/testify/assert"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol/model/openapi"
-	"gitlab.espadev.ir/espad-go/infrastructure/misc"
 )
 
 func NewTestModuleWithTag(base string, tag openapi.Tag, rdfs ...*protocol.RequestDefinition) *testModule {

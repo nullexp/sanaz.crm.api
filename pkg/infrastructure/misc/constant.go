@@ -1,9 +1,5 @@
 package misc
 
-const (
-	Id = "id"
-)
-
 type QueryOperator string
 
 const (

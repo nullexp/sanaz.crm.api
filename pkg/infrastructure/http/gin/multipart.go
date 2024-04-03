@@ -11,8 +11,8 @@ import (
 	"os"
 	"time"
 
-	fle "gitlab.espadev.ir/espad-go/infrastructure/file"
-	"gitlab.espadev.ir/espad-go/infrastructure/misc"
+	fileProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 )
 
 var ErrMessageTooLarge = errors.New("multipart: message too large")
@@ -58,7 +58,7 @@ func (fh *FileHeader) GetSize() int64 {
 	return fh.Size
 }
 
-func (fh *FileHeader) OpenFile() (fle.File, error) {
+func (fh *FileHeader) OpenFile() (fileProtocol.File, error) {
 	var readerCloser io.ReadCloser
 	var err error
 	if b := fh.content; b != nil {

@@ -9,10 +9,10 @@ import (
 	"strconv"
 	"strings"
 
-	httpapi "gitlab.espadev.ir/espad-go/infrastructure/http/protocol"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol/model/openapi"
-	response "gitlab.espadev.ir/espad-go/infrastructure/http/protocol/response"
-	"gitlab.espadev.ir/espad-go/infrastructure/misc"
+	httpapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/openapi"
+	response "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/response"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 )
 
 const (

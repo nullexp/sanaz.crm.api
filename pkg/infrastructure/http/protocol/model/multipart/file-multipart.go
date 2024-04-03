@@ -3,12 +3,12 @@ package multipart
 import (
 	"time"
 
-	"gitlab.espadev.ir/espad-go/infrastructure/file"
-	http "gitlab.espadev.ir/espad-go/infrastructure/http/protocol"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
+	http "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
 )
 
 type filePart struct {
-	file     file.File
+	file     protocol.File
 	partName string
 }
 
@@ -40,6 +40,6 @@ func (f *filePart) GetMimeType() string {
 	return f.file.GetMimeType()
 }
 
-func NewFilePart(f file.File, partName string) http.FileMultiaprt {
+func NewFilePart(f protocol.File, partName string) http.FileMultipart {
 	return &filePart{file: f, partName: partName}
 }

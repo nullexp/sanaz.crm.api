@@ -1,9 +1,9 @@
 package ws
 
 import (
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/gorilla/websocket"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol/model"
-	"gitlab.espadev.ir/espad-go/infrastructure/misc"
 )
 
 type DuplexConnection struct {

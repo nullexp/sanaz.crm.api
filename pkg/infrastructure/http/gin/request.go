@@ -10,16 +10,16 @@ import (
 	"reflect"
 	"strings"
 
+	fileProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
+	httpapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model"
+	mutipartmodel "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/multipart"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/response"
+	logger "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/log"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	gah "github.com/timewasted/go-accept-headers"
-	"gitlab.espadev.ir/espad-go/infrastructure/file"
-	httpapi "gitlab.espadev.ir/espad-go/infrastructure/http/protocol"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol/model"
-	mutipartmodel "gitlab.espadev.ir/espad-go/infrastructure/http/protocol/model/multipart"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol/response"
-	logger "gitlab.espadev.ir/espad-go/infrastructure/log"
-	"gitlab.espadev.ir/espad-go/infrastructure/misc"
 )
 
 const (
@@ -159,7 +159,7 @@ func (req *request) ReturnStatus(stausCode int, err error) {
 
 const NotOffered = "the accepted formats are not offered by the server or format is not supplied"
 
-func (req *request) setStatusNotAccetable() {
+func (req *request) setStatusNotAcceptable() {
 	_ = req.ctx.AbortWithError(http.StatusNotAcceptable, errors.New(NotOffered))
 }
 
@@ -217,7 +217,7 @@ func (req *request) writeMultipart(vm []httpapi.Multipart, mixed bool) error {
 
 		h := make(textproto.MIMEHeader)
 
-		fpart, isFile := v.(file.File)
+		fpart, isFile := v.(fileProtocol.File)
 
 		dispositionContent := fmt.Sprintf(AttachmentNamePlaceholder, req.escapeQuotes(v.GetPartName()))
 		if isFile {
@@ -246,7 +246,7 @@ func (req *request) sendMultipartMixed(code int, data interface{}) {
 
 	drr, arrayBased := data.([]interface{})
 	append := func(v interface{}) {
-		f, isFile := v.(file.File)
+		f, isFile := v.(fileProtocol.File)
 		if isFile {
 			parts = append(parts, newFilePart(f, "file"))
 		} else {
@@ -274,7 +274,7 @@ func (req *request) sendMultipartMixed(code int, data interface{}) {
 	req.SetStatus(code)
 }
 
-func (req *request) ReturnMultpartMixed(code int, err error, out ...httpapi.Multipart) {
+func (req *request) ReturnMultipartMixed(code int, err error, out ...httpapi.Multipart) {
 	if req.handleError(err) {
 		return
 	}
@@ -321,7 +321,7 @@ func (req *request) negotiate(code int, data interface{}) {
 		}
 	}
 
-	req.setStatusNotAccetable()
+	req.setStatusNotAcceptable()
 }
 
 func (req *request) GetDTO() (interface{}, bool) {
@@ -385,7 +385,7 @@ func (req *request) MustGetFiles(partName string) []httpapi.FileHeader {
 
 const CType = "Content-Type"
 
-func (req *request) RangeFile(status int, err error, file file.SeekerFile) {
+func (req *request) RangeFile(status int, err error, file fileProtocol.SeekerFile) {
 	if req.handleError(err) {
 		return
 	}
@@ -395,7 +395,7 @@ func (req *request) RangeFile(status int, err error, file file.SeekerFile) {
 	http.ServeContent(req.ctx.Writer, req.ctx.Request, file.GetFilename(), file.GetLastModifiedDate(), file)
 }
 
-func (req *request) WriteFile(status int, err error, file file.File) {
+func (req *request) WriteFile(status int, err error, file fileProtocol.File) {
 	if req.handleError(err) {
 		return
 	}
@@ -412,7 +412,7 @@ func newValuePart(obj interface{}, partName, contentType string) httpapi.Multipa
 	return mutipartmodel.NewJsonPart(obj, partName)
 }
 
-func newFilePart(f file.File, partName string) httpapi.Multipart {
+func newFilePart(f fileProtocol.File, partName string) httpapi.Multipart {
 	return mutipartmodel.NewFilePart(f, partName)
 }
 

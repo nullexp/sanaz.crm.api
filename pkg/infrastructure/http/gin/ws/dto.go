@@ -3,7 +3,7 @@ package ws
 import (
 	"encoding/json"
 
-	"gitlab.espadev.ir/espad-go/infrastructure/misc"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 )
 
 type JsonDtoMessage struct {

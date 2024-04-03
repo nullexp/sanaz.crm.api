@@ -18,21 +18,21 @@ import (
 	"testing"
 	"time"
 
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model"
+	mlp "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/multipart"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/openapi"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/utility"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/log"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/ldez/mimetype"
 	"github.com/stretchr/testify/assert"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol/model"
-	mlp "gitlab.espadev.ir/espad-go/infrastructure/http/protocol/model/multipart"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol/model/openapi"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol/utility"
-	"gitlab.espadev.ir/espad-go/infrastructure/log"
-	"gitlab.espadev.ir/espad-go/infrastructure/misc"
 )
 
 func init() {
-	log.Initialize(false)
+	log.Initialize()
 }
 
 type testModule struct {
@@ -664,7 +664,7 @@ func TestDataHandler(t *testing.T) {
 			FreeRoute: true,
 			Handler: func(req protocol.Request) {
 				tdr := req.MustGetDTO().([]*TestDto)
-				req.ReturnMultpartMixed(http.StatusOK, nil, mlp.NewJsonPart(tdr, "data"))
+				req.ReturnMultipartMixed(http.StatusOK, nil, mlp.NewJsonPart(tdr, "data"))
 			},
 		},
 		&protocol.RequestDefinition{
@@ -678,7 +678,7 @@ func TestDataHandler(t *testing.T) {
 				dt1, _ := json.Marshal(tdr[1])
 				f1 := mlp.NewFilePart(&object{Data: dt, DataMode: true, Name: protocol.KeyDTO, MimeType: mimetype.ApplicationOctetStream, LastModifiedDate: time.Now()}, protocol.KeyDTO)
 				f2 := mlp.NewFilePart(&object{Data: dt1, DataMode: true, Name: protocol.KeyDTO, MimeType: mimetype.ApplicationOctetStream, LastModifiedDate: time.Now()}, protocol.KeyDTO)
-				req.ReturnMultpartMixed(http.StatusOK, nil, f1, f2)
+				req.ReturnMultipartMixed(http.StatusOK, nil, f1, f2)
 			},
 		},
 		&protocol.RequestDefinition{

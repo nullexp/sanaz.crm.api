@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"gitlab.espadev.ir/espad-go/infrastructure/misc"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 )
 
 func ParseQuery(def misc.QueryDefinition, qvalue string) (misc.Query, error) {

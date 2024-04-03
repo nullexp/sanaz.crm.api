@@ -14,19 +14,19 @@ import (
 	"strings"
 	"time"
 
+	wsmodel "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/gin/ws"
+	httpapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
+	model "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/openapi"
+	response "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/response"
+	logger "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/log"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	limit "github.com/aviddiviner/gin-limit"
 	helmet "github.com/danielkov/gin-helmet"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/gorilla/websocket"
-	wsmodel "gitlab.espadev.ir/espad-go/infrastructure/http/gin/ws"
-	httpapi "gitlab.espadev.ir/espad-go/infrastructure/http/protocol"
-	model "gitlab.espadev.ir/espad-go/infrastructure/http/protocol/model"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol/model/openapi"
-	response "gitlab.espadev.ir/espad-go/infrastructure/http/protocol/response"
-	logger "gitlab.espadev.ir/espad-go/infrastructure/log"
-	"gitlab.espadev.ir/espad-go/infrastructure/misc"
 )
 
 //go:embed asset/swagger

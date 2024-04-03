@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
+	httpapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
-	httpapi "gitlab.espadev.ir/espad-go/infrastructure/http/protocol"
-	"gitlab.espadev.ir/espad-go/infrastructure/misc"
 )
 
 func TestRequestHandler(t *testing.T) {
