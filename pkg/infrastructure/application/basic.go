@@ -226,7 +226,6 @@ func (p BasicCrudImpl[T, J]) Create(ctx context.Context, dto J) (out string, err
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -257,7 +256,6 @@ func (p BasicCrudImpl[T, J]) Update(ctx context.Context, dto J) (err error) {
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -286,7 +284,6 @@ func (p BasicCrudImpl[T, J]) PartialUpdate(ctx context.Context, dto Dto) (err er
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -311,7 +308,6 @@ func (p BasicCrudImpl[T, J]) List(ctx context.Context) (out []J, err error) {
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -334,7 +330,6 @@ func (p BasicCrudImpl[T, J]) GetPage(ctx context.Context, page QueryPagination) 
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -361,7 +356,6 @@ func (p BasicCrudImpl[T, J]) GetQuery(ctx context.Context, queryInfo QueryInfo) 
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -386,7 +380,6 @@ func (p BasicCrudImpl[T, J]) GetQueryAsMap(ctx context.Context, queryInfo QueryI
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -407,7 +400,6 @@ func (p BasicCrudImpl[T, J]) GetSingleQuery(ctx context.Context, queryInfo Query
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -432,7 +424,6 @@ func (p BasicCrudImpl[T, J]) GetById(ctx context.Context, id string) (out J, err
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -455,7 +446,6 @@ func (p BasicCrudImpl[T, J]) DeleteById(ctx context.Context, id string) (err err
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -478,7 +468,6 @@ func (p BasicCrudImpl[T, J]) Delete(ctx context.Context, queryInfo QueryInfo) (e
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -509,7 +498,6 @@ func (p BasicCrudImpl[T, J]) Set(ctx context.Context, queryDto QueryDtoInfo[J]) 
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -540,7 +528,6 @@ func (p BasicCrudImpl[T, J]) Exist(ctx context.Context, queryInfo QueryInfo) (ou
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -565,7 +552,6 @@ func (p BasicCrudImpl[T, J]) Sum(ctx context.Context, queryFieldInfo QueryFieldI
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -590,7 +576,6 @@ func (p BasicCrudImpl[T, J]) Average(ctx context.Context, queryFieldInfo QueryFi
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -615,7 +600,6 @@ func (p BasicCrudImpl[T, J]) Rate(ctx context.Context, queryFieldInfoStruct Rate
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -658,7 +642,6 @@ func (p BasicCrudImpl[T, J]) CreateMultiple(ctx context.Context, dtos []J) (ids 
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -690,7 +673,6 @@ func (p BasicCrudImpl[T, J]) SetMultiple(ctx context.Context, queries []QueryDto
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -725,7 +707,6 @@ func (p BasicCrudImpl[T, J]) Count(ctx context.Context, queryInfo QueryInfo) (ou
 
 	tx := factory.New()
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -747,7 +728,6 @@ func (p BasicCrudImpl[T, J]) DistinctSum(ctx context.Context, queryFieldInfo Que
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -772,7 +752,6 @@ func (p BasicCrudImpl[T, J]) DistinctCount(ctx context.Context, queryFieldInfo Q
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -797,7 +776,6 @@ func (p BasicCrudImpl[T, J]) UpdateField(ctx context.Context, queryFieldValueInf
 	tx := factory.New()
 
 	err = tx.Begin()
-
 	if err != nil {
 		return
 	}
@@ -809,7 +787,6 @@ func (p BasicCrudImpl[T, J]) UpdateField(ctx context.Context, queryFieldValueInf
 	query := GenerateQuery(&queryFieldValueInfo.Query)
 
 	err = repo.UpdateField(ctx, queryFieldValueInfo.GetName(), queryFieldValueInfo.GetValue(), query)
-
 	if err != nil {
 		return
 	}

@@ -274,7 +274,6 @@ func (ginApp *GinApp) AuthenticationHandler(c *gin.Context) {
 	var err error
 	var m misc.JwtClaim
 	m, err = authenticator.GetModel(splitToken[1])
-
 	if err != nil {
 		req.SetUnauthorized(CouldNotParseToken, response.UnknownFormat)
 		return

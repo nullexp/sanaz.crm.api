@@ -39,7 +39,6 @@ func DbController() protocol.DatabaseController {
 	}
 
 	err = controller.Init() // Create tables
-
 	if err != nil {
 		panic(err)
 	}
@@ -85,7 +84,6 @@ func DbPgController() protocol.DatabaseController {
 	}
 
 	err = controller.Init() // Create tables
-
 	if err != nil {
 		panic(err)
 	}
@@ -208,7 +206,6 @@ func TestBasicUpdate(t *testing.T) {
 	model.Id = id
 
 	err = userApplication.Update(context.Background(), model)
-
 	if err != nil {
 		panic(err)
 	}
@@ -244,7 +241,6 @@ func TestBasicDelete(t *testing.T) {
 			{Name: misc.Id, Op: misc.QueryOperatorEqual, Operand: misc.NewOperand(id)},
 		},
 	})
-
 	if err != nil {
 		panic(err)
 	}
@@ -276,7 +272,6 @@ func TestBasicList(t *testing.T) {
 	model.Username = randomString(10)
 
 	_, err = userApplication.Create(context.Background(), model)
-
 	if err != nil {
 		panic(err)
 	}
@@ -689,7 +684,6 @@ func TestNestedUpdate(t *testing.T) {
 	}
 
 	err = userApplication.Update(context.Background(), NestedGormUserDto{Id: id, Username: secondUsername})
-
 	if err != nil {
 		panic(err)
 	}
@@ -781,7 +775,6 @@ func TestNestedDelete(t *testing.T) {
 				Operand: misc.NewOperand(id),
 			}},
 		})
-
 	if err != nil {
 		panic(err)
 	}
@@ -944,7 +937,6 @@ func TestPartial(t *testing.T) {
 	}
 
 	err = userApplication.PartialUpdate(context.Background(), PartialDto1{Id: id, LastName: updateLastName})
-
 	if err != nil {
 		panic(err)
 	}

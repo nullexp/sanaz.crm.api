@@ -69,13 +69,11 @@ func CopyFile(src, dst string) (err error) {
 	}()
 
 	_, err = io.Copy(out, in)
-
 	if err != nil {
 		return
 	}
 
 	err = out.Sync()
-
 	if err != nil {
 		return
 	}
@@ -86,7 +84,6 @@ func CopyFile(src, dst string) (err error) {
 	}
 
 	err = os.Chmod(dst, si.Mode())
-
 	if err != nil {
 		return
 	}
@@ -123,7 +120,6 @@ func CopyDir(src string, dst string) (err error) {
 	}
 
 	err = os.MkdirAll(dst, si.Mode())
-
 	if err != nil {
 		return
 	}
@@ -142,7 +138,6 @@ func CopyDir(src string, dst string) (err error) {
 		if entry.IsDir() {
 
 			err = CopyDir(srcPath, dstPath)
-
 			if err != nil {
 				return
 			}
@@ -150,7 +145,6 @@ func CopyDir(src string, dst string) (err error) {
 		} else {
 
 			err = CopyFile(srcPath, dstPath)
-
 			if err != nil {
 				return
 			}
@@ -187,13 +181,11 @@ func (md *SqliteDatabase) Backup(location string) error {
 	}
 
 	_, err = Copy(source+"-shm", location+"-shm")
-
 	if err != nil {
 		return err
 	}
 
 	_, err = Copy(source+"-wal", location+"-wal")
-
 	if err != nil {
 		return err
 	}
@@ -247,7 +239,6 @@ func (md *SqliteDatabase) open(dir string, memory bool) error {
 	preloadPlugin := &PreloadAllPlugin{}
 
 	err = preloadPlugin.Initialize(db)
-
 	if err != nil {
 		return err
 	}

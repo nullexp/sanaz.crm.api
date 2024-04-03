@@ -17,7 +17,10 @@ func getImage() []byte {
 		panic(err)
 	}
 	buf := new(bytes.Buffer)
-	png.Encode(buf, img)
+	err = png.Encode(buf, img)
+	if err != nil {
+		panic(err)
+	}
 	imgbytes := buf.Bytes()
 	return imgbytes
 }
@@ -51,5 +54,4 @@ func TestStoreRetrieve(t *testing.T) {
 
 	err = storage.Remove(fileName)
 	assert.Nil(t, err)
-
 }

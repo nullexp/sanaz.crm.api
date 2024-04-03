@@ -14,6 +14,8 @@ import (
 
 	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/afero/utility"
 	fileProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
+	protocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/log"
 	"github.com/disintegration/imaging"
 	"github.com/h2non/filetype"
 	"github.com/spf13/afero"
@@ -24,26 +26,35 @@ type ImageStorage struct {
 	thumbStoreLock *sync.RWMutex
 }
 
-const profileDir = "profile/"
-const profileThumbsDir = "profile/thumbs/"
+const (
+	profileDir       = "profile/"
+	profileThumbsDir = "profile/thumbs/"
+)
 
 func NewImageStorage() fileProtocol.ImageStorage {
-
 	u := ImageStorage{}
 	u.fileSystem = afero.NewOsFs()
-	u.fileSystem.Mkdir(profileDir, os.ModeDir)
-	u.fileSystem.Mkdir(profileThumbsDir, os.ModeDir)
+	err := u.fileSystem.Mkdir(profileDir, os.ModeDir)
+	if err != nil {
+		log.Error.Fatal(err)
+	}
+	err = u.fileSystem.Mkdir(profileThumbsDir, os.ModeDir)
+	if err != nil {
+		log.Error.Fatal(err)
+	}
 	u.thumbStoreLock = &sync.RWMutex{}
 
 	return u
 }
 
 func (u ImageStorage) Store(rc io.ReadCloser, name string) error {
-
 	if strings.TrimSpace(name) == "" {
 		return fileProtocol.ErrFileNameIsEmpty
 	}
-	u.remove(name)
+	err := u.remove(name)
+	if err != nil {
+		return err
+	}
 	defer rc.Close()
 	return u.saveFile(rc, profileDir+name)
 }
@@ -59,13 +70,12 @@ func (u ImageStorage) saveFile(reader io.Reader, name string) error {
 }
 
 func (u ImageStorage) retrieve(name string) (io.ReadCloser, time.Time, error) {
-
 	file, err := u.fileSystem.Open(name)
 	if err != nil {
 		return nil, time.Time{}, utility.NormalizeError(err)
 	}
 	s, e := file.Stat()
-	var modTime = time.Now()
+	modTime := time.Now()
 	if e != nil {
 		modTime = s.ModTime()
 	}
@@ -77,7 +87,6 @@ func (u ImageStorage) Retrieve(name string) (io.ReadCloser, time.Time, error) {
 }
 
 func (u ImageStorage) GetLastModifiedDate(name string) (time.Time, error) {
-
 	stat, err := u.fileSystem.Stat(profileDir + name)
 	if err != nil {
 		return time.Time{}, err
@@ -86,29 +95,35 @@ func (u ImageStorage) GetLastModifiedDate(name string) (time.Time, error) {
 }
 
 func (u ImageStorage) Exist(name string) bool {
-
 	_, err := u.fileSystem.Stat(profileDir + name)
 	err = utility.NormalizeError(err)
 	return err == nil
 }
 
 func (u ImageStorage) remove(name string) error {
-
-	return u.fileSystem.Remove(name)
+	err := u.fileSystem.Remove(name)
+	if err != nil {
+		err = utility.NormalizeError(err)
+		if err == protocol.ErrFileNotExist {
+			return nil
+		}
+	}
+	return err
 }
 
 func (u ImageStorage) Remove(name string) error {
-	u.remove(profileDir + name)
-	u.fileSystem.RemoveAll(profileThumbsDir + name)
-	return nil
+	err := u.remove(profileDir + name)
+	if err != nil {
+		return err
+	}
+	return u.fileSystem.RemoveAll(profileThumbsDir + name)
 }
 
 const pngExtension = "png"
 
 func (u ImageStorage) RetrieveThumbnail(name string, params ...any) (io.ReadCloser, time.Time, error) {
-
 	wsize := 64
-	var sizeName = "64-"
+	sizeName := "64-"
 	if len(params) != 0 {
 		v, ok := params[0].(int)
 		if ok && v >= 64 {
@@ -165,8 +180,14 @@ func (u ImageStorage) RetrieveThumbnail(name string, params ...any) (io.ReadClos
 	newData := buf.Bytes()
 
 	u.thumbStoreLock.Lock()
-	u.fileSystem.Mkdir(getThmbDir(name), os.ModeDir)
-	u.saveFile(io.NopCloser(bytes.NewReader(newData)), getThmbDir(name)+sizeName+name)
+	err = u.fileSystem.Mkdir(getThmbDir(name), os.ModeDir)
+	if err != nil {
+		return nil, time.Time{}, err
+	}
+	err = u.saveFile(io.NopCloser(bytes.NewReader(newData)), getThmbDir(name)+sizeName+name)
+	if err != nil {
+		return nil, time.Time{}, err
+	}
 	u.thumbStoreLock.Unlock()
 
 	return io.NopCloser(bytes.NewReader(newData)), time.Now(), nil

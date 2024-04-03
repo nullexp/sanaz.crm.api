@@ -73,7 +73,6 @@ func (d *PgController) Generate() error {
 	defer tx.Rollback()
 
 	err = sd.GetGorm().Exec(fmt.Sprintf(DBCreateDML, d.config.Name)).Error
-
 	if err != nil {
 
 		if pgerror, ok := err.(*pgconn.PgError); ok {
@@ -132,13 +131,11 @@ func (d *PgController) Init() error {
 	if isNew {
 
 		err = context.Exec(CreateUUIdExtension).Error
-
 		if err != nil {
 			return err
 		}
 
 		err = context.Exec(fmt.Sprintf(CreateSchemaIfNotExist, d.config.Schema)).Error
-
 		if err != nil {
 			return err
 		}
@@ -148,7 +145,6 @@ func (d *PgController) Init() error {
 	for _, v := range d.entityDefinitions {
 
 		err = context.AutoMigrate(&v)
-
 		if err != nil {
 
 			fmt.Printf("AutoMigrate: %T\n", v)
