@@ -3,8 +3,8 @@ package gin
 import (
 	"testing"
 
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/stretchr/testify/assert"
-	"gitlab.espadev.ir/espad-go/infrastructure/misc"
 )
 
 func TestParseQuery(t *testing.T) {

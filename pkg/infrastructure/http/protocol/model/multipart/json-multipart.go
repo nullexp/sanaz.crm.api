@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 
+	http "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
 	"github.com/ldez/mimetype"
-	http "gitlab.espadev.ir/espad-go/infrastructure/http/protocol"
 )
 
 type jsonMultipart struct {

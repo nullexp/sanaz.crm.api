@@ -3,7 +3,7 @@ package gin
 import (
 	"net/http"
 
-	httpapi "gitlab.espadev.ir/espad-go/infrastructure/http/protocol"
+	httpapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
 )
 
 type Router struct {

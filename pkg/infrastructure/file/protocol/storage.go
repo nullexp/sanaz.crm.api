@@ -1,4 +1,4 @@
-package file
+package protocol
 
 import (
 	"errors"
@@ -8,7 +8,7 @@ import (
 
 type FileStorage interface {
 	Store(io.ReadCloser, string) error
-	Retrive(name string) (io.ReadCloser, time.Time, error)
+	Retrieve(name string) (io.ReadCloser, time.Time, error)
 	GetLastModifiedDate(name string) (time.Time, error)
 	Exist(name string) bool
 	Remove(name string) error
@@ -16,7 +16,7 @@ type FileStorage interface {
 
 type ImageStorage interface {
 	FileStorage
-	RetriveThumbnail(string, ...any) (io.ReadCloser, time.Time, error)
+	RetrieveThumbnail(string, ...any) (io.ReadCloser, time.Time, error)
 }
 
 var (

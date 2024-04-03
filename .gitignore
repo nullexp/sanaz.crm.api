@@ -27,4 +27,5 @@ _testmain.go
 # ---> VisualStudioCode
 .settings
 
-
+.vscode
+.env

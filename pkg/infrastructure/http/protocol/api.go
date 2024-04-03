@@ -6,10 +6,10 @@ import (
 	"net/http/httptest"
 	"net/textproto"
 
-	"gitlab.espadev.ir/espad-go/infrastructure/file"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol/model"
-	"gitlab.espadev.ir/espad-go/infrastructure/http/protocol/model/openapi"
-	"gitlab.espadev.ir/espad-go/infrastructure/misc"
+	fileProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/openapi"
+	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 )
 
 type (
@@ -64,9 +64,9 @@ type (
 		GetFiles(partName string) ([]FileHeader, bool)
 		MustGetFiles(partName string) []FileHeader
 		Negotiate(stausCode int, err error, dto interface{})
-		RangeFile(status int, err error, file file.SeekerFile)
-		WriteFile(status int, err error, file file.File)
-		ReturnMultpartMixed(status int, err error, out ...Multipart)
+		RangeFile(status int, err error, file fileProtocol.SeekerFile)
+		WriteFile(status int, err error, file fileProtocol.File)
+		ReturnMultipartMixed(status int, err error, out ...Multipart)
 		GetPagination() (misc.Pagination, bool)
 		GetCursorPagination() (misc.CursorPagination, bool)
 		GetCaller() (misc.Caller, bool)
@@ -107,8 +107,8 @@ type (
 		GetMimeType() string
 	}
 
-	FileMultiaprt interface {
-		file.File
+	FileMultipart interface {
+		fileProtocol.File
 		Multipart
 	}
 
@@ -116,7 +116,7 @@ type (
 		GetHeader() textproto.MIMEHeader
 		GetSize() int64
 		GetFilename() string
-		OpenFile() (file.File, error)
+		OpenFile() (fileProtocol.File, error)
 	}
 )
 

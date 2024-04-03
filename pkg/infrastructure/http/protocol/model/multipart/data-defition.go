@@ -1,6 +1,6 @@
 package multipart
 
-import http "gitlab.espadev.ir/espad-go/infrastructure/http/protocol"
+import http "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
 
 type DataDefinition struct {
 	Name     string

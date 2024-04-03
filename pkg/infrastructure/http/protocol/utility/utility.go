@@ -1,6 +1,6 @@
 package utility
 
-import "gitlab.espadev.ir/espad-go/infrastructure/http/protocol"
+import "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
 
 func GetByType[T any](key string, r protocol.Request) ([]*T, bool) {
 	raw, ok := r.Get(key)
