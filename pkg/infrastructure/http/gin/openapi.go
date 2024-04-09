@@ -494,6 +494,18 @@ func getResponseBody(def httpapi.ResponseDefinition) (out map[string]any) {
 	out = map[string]any{}
 	out[Description] = def.Description
 
+	if def.IsFile {
+		out[Content] = map[string]any{
+			"application/octet-stream": map[string]any{
+				"schema": map[string]any{
+					"type":   "string",
+					"format": "binary",
+				},
+			},
+		}
+		return
+	}
+
 	if def.Dto == nil {
 		return
 	}

@@ -4,6 +4,8 @@ import (
 	"strings"
 	"time"
 
+	genericErrors "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/error"
+	errorProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/error/protocol"
 	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 )
 
@@ -11,11 +13,11 @@ func ParseQuery(def misc.QueryDefinition, qvalue string) (misc.Query, error) {
 	smallCount := strings.Count(qvalue, "(")
 	biggerCount := strings.Count(qvalue, ")")
 	if smallCount != biggerCount {
-		return nil, misc.WrapUserOperationError("malformed query parentheses")
+		return nil, errorProtocol.WrapUserOperationError(genericErrors.GenericValidationErrorKey, "malformed query parentheses")
 	}
 
 	if smallCount >= 2 {
-		return nil, misc.WrapUserOperationError("unsupported format")
+		return nil, errorProtocol.WrapUserOperationError(genericErrors.GenericValidationErrorKey, "unsupported format")
 	}
 
 	endWithParentheses := strings.HasSuffix(qvalue, ")")
@@ -38,7 +40,7 @@ func ParseQuery(def misc.QueryDefinition, qvalue string) (misc.Query, error) {
 	}
 
 	if !endWithParentheses {
-		return nil, misc.WrapUserOperationError("must end with paranthesis")
+		return nil, errorProtocol.WrapUserOperationError(genericErrors.GenericValidationErrorKey, "must end with parenthesis")
 	}
 
 	qvalue = strings.TrimSuffix(qvalue, ")")
@@ -54,18 +56,18 @@ func ParseQuery(def misc.QueryDefinition, qvalue string) (misc.Query, error) {
 		return nil, err
 	}
 
-	commaSeperated := strings.Split(value, ",")
+	commaSeparated := strings.Split(value, ",")
 
 	if pamType == misc.ParameterExpectationZero && value != "" {
-		return nil, misc.WrapUserOperationError("expect no operator")
+		return nil, errorProtocol.WrapUserOperationError(genericErrors.GenericValidationErrorKey, "expect no operator")
 	}
 
-	if pamType == misc.ParameterExpectationSingle && (value == "" || len(commaSeperated) != 1) {
-		return nil, misc.WrapUserOperationError("expect operator")
+	if pamType == misc.ParameterExpectationSingle && (value == "" || len(commaSeparated) != 1) {
+		return nil, errorProtocol.WrapUserOperationError(genericErrors.GenericValidationErrorKey, "expect operator")
 	}
 
 	if pamType == misc.ParameterExpectationMultiple && value == "" {
-		return nil, misc.WrapUserOperationError("expect operator")
+		return nil, errorProtocol.WrapUserOperationError(genericErrors.GenericValidationErrorKey, "expect operator")
 	}
 	if err != nil {
 		return nil, err
@@ -75,8 +77,8 @@ func ParseQuery(def misc.QueryDefinition, qvalue string) (misc.Query, error) {
 		return misc.NewEmptyQuery(def.GetName(), op), nil
 	}
 
-	if len(commaSeperated) >= 2 {
-		return parseMultiple(def, op, commaSeperated)
+	if len(commaSeparated) >= 2 {
+		return parseMultiple(def, op, commaSeparated)
 	} else {
 		return parseSimpleOperands(def, op, value)
 	}
@@ -86,7 +88,7 @@ func parseSimpleEqual(def misc.QueryDefinition, qvalue string) (misc.Query, erro
 	v, ok := misc.ParseValue(def.GetType(), qvalue)
 
 	if !ok {
-		return nil, misc.WrapUserOperationError("invalid data type")
+		return nil, errorProtocol.WrapUserOperationError(genericErrors.GenericValidationErrorKey, "invalid data type")
 	}
 	out := misc.NewQuery(def.GetName(), misc.QueryOperatorEqual, misc.NewOperand(v))
 	return out, nil
@@ -100,7 +102,7 @@ func parseSimpleOperands(def misc.QueryDefinition, op misc.QueryOperator, rawVal
 	v, ok := misc.ParseValue(def.GetType(), rawValue)
 
 	if !ok {
-		return nil, misc.WrapUserOperationError("invalid data type")
+		return nil, errorProtocol.WrapUserOperationError(genericErrors.GenericValidationErrorKey, "invalid data type")
 	}
 	out := misc.NewQuery(def.GetName(), op, misc.NewOperand(v))
 	return out, nil
@@ -112,7 +114,7 @@ func parseMultipleGenericOperands[T any](def misc.QueryDefinition, op misc.Query
 		v, ok := misc.ParseValue(def.GetType(), v)
 
 		if !ok {
-			return nil, misc.WrapUserOperationError("invalid data type")
+			return nil, errorProtocol.WrapUserOperationError(genericErrors.GenericValidationErrorKey, "invalid data type")
 		}
 		ops = append(ops, v.(T))
 	}

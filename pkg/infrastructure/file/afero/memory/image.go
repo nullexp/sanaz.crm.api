@@ -50,9 +50,11 @@ func (u ImageStorage) Store(rc io.ReadCloser, name string) error {
 	if strings.TrimSpace(name) == "" {
 		return protocol.ErrFileNameIsEmpty
 	}
-	err := u.remove(name)
-	if err != nil {
-		return err
+	if u.Exist(name) {
+		err := u.remove(name)
+		if err != nil {
+			return err
+		}
 	}
 	defer rc.Close()
 	return u.saveFile(rc, profileDir+name)
@@ -103,12 +105,6 @@ func (u ImageStorage) Exist(name string) bool {
 
 func (u ImageStorage) remove(name string) error {
 	err := u.fileSystem.Remove(name)
-	if err != nil {
-		err = utility.NormalizeError(err)
-		if err == protocol.ErrFileNotExist {
-			return nil
-		}
-	}
 	return err
 }
 

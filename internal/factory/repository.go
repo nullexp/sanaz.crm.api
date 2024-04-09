@@ -1,28 +1,30 @@
 package factory
 
-// import (
-// 	gormRepo "git.omidgolestani.ir/clinic/crm.api/internal/module/chat/persistence/repository/gorm"
-// 	repository "git.omidgolestani.ir/clinic/crm.api/pkg/module/chat/persistence/repository"
-// )
+import (
+	fileFactory "git.omidgolestani.ir/clinic/crm.api/internal/module/file/persistence/repository/pgsqlite"
+	repo "git.omidgolestani.ir/clinic/crm.api/pkg/module/file/persistence/repository"
+)
 
-// func NewUserRepository(name string, params ...any) repository.UserFactory {
+const (
+	Data = "data"
+)
 
-// 	if name == "" {
-// 		name = Test
-// 	}
+func NewAssetRepository(name string, params ...any) repo.AssetRepoFactory {
+	if name == "" {
+		name = Test
+	}
 
-// 	switch name {
-// 	case Test:
-// 		fallthrough
-// 	case Data:
+	switch name {
+	case Test:
+		fallthrough
+	case Data:
 
-// 		if len(params) == 0 {
-// 			return gormRepo.NewGormRepoFactory(false)
-// 		}
-// 		val, _ := params[0].(bool)
-// 		return gormRepo.NewGormRepoFactory(val)
+		if len(params) == 0 {
+			return fileFactory.NewFileRepoFactory(false)
+		}
+		val, _ := params[0].(bool)
+		return fileFactory.NewFileRepoFactory(val)
 
-// 	}
-// 	panic(ErrNotImplemented)
-
-// }
+	}
+	panic(ErrNotImplemented)
+}

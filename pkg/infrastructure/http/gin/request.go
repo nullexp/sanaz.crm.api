@@ -10,6 +10,7 @@ import (
 	"reflect"
 	"strings"
 
+	errorProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/error/protocol"
 	fileProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
 	httpapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
 	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model"
@@ -109,27 +110,27 @@ func (req *request) MustGet(key string) interface{} {
 
 const (
 	PleaseReadTheErrorCode = "Please read the error code"
-	ServerErrorOccured     = "Server error occured, please contact administrator"
+	ServerErrorOccurred    = "Server error occurred, please contact administrator"
 )
 
 const (
 	GenericNotFound = "GenericNotFound"
-	DataWasNotFound = "Data Was not found"
+	DataWasNotFound = "Data was not found"
 )
 
 func (req *request) handleError(err error) bool {
 	if err != nil {
-		if ok, oe := misc.ToUserOperationError(err); ok {
+		if ok, oe := errorProtocol.IsManagedError(err); ok {
 
-			if oe.IsNotFoundError() {
-				req.SetNotFound(DataWasNotFound, oe.GetOperationErrorCode())
+			if oe.IsNotFound {
+				req.SetNotFound(DataWasNotFound, string(oe.OperationErrorCode))
 			} else {
-				req.SetBadRequest(PleaseReadTheErrorCode, oe.GetOperationErrorCode())
+				req.SetBadRequest(PleaseReadTheErrorCode, string(oe.OperationErrorCode))
 			}
 			return true
 		}
 
-		req.SetServerError(ServerErrorOccured)
+		req.SetServerError(ServerErrorOccurred)
 		logger.Error.Println(err, err.Error())
 		return true
 	}
@@ -195,6 +196,7 @@ func (req *request) getMixedContentType(b string) string {
 const (
 	ContentDisposition            = "Content-Disposition"
 	AttachmentNamePlaceholder     = `attachment; name="%s"`
+	AttachmentFileNamePlaceholder = `attachment; filename="%s"`
 	AttachmentWithFilePlaceholder = AttachmentNamePlaceholder + `;filename="%s";`
 )
 
@@ -239,7 +241,10 @@ func (req *request) writeMultipart(vm []httpapi.Multipart, mixed bool) error {
 	return mwriter.Close()
 }
 
-const MMixed = "multipart/mixed"
+const (
+	MMixed         = "multipart/mixed"
+	AppOctedStream = "application/octet-stream"
+)
 
 func (req *request) sendMultipartMixed(code int, data interface{}) {
 	parts := []httpapi.Multipart{}
@@ -295,7 +300,9 @@ func (req *request) negotiate(code int, data interface{}) {
 		switch mime {
 
 		case MMixed:
-			if code >= http.StatusBadRequest {
+			fallthrough
+		case AppOctedStream:
+			if code == http.StatusBadRequest || code == http.StatusNotFound {
 				req.ctx.JSON(code, data)
 				return
 			}
@@ -391,6 +398,8 @@ func (req *request) RangeFile(status int, err error, file fileProtocol.SeekerFil
 	}
 	req.SetStatus(status)
 	req.ctx.Header(CType, file.GetMimeType())
+	dispositionContent := fmt.Sprintf(AttachmentFileNamePlaceholder, req.escapeQuotes(file.GetFilename()))
+	req.ctx.Header(ContentDisposition, dispositionContent)
 	defer file.Close()
 	http.ServeContent(req.ctx.Writer, req.ctx.Request, file.GetFilename(), file.GetLastModifiedDate(), file)
 }
@@ -400,6 +409,9 @@ func (req *request) WriteFile(status int, err error, file fileProtocol.File) {
 		return
 	}
 	req.ctx.Header(CType, file.GetMimeType())
+	dispositionContent := fmt.Sprintf(AttachmentFileNamePlaceholder, req.escapeQuotes(file.GetFilename()))
+	req.ctx.Header(ContentDisposition, dispositionContent)
+
 	req.SetStatus(status)
 	_, err = io.Copy(req.ctx.Writer, file)
 	defer file.Close()

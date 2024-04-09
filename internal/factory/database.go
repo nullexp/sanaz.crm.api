@@ -5,7 +5,7 @@ import (
 	db "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
 )
 
-const Sqlite = "gorm-sqlite"
+const Sqlite = "sqlite"
 
 func NewDatabaseController(name string, baseEntities []db.EntityBased, param ...any) db.DatabaseController {
 	if name == "" {
