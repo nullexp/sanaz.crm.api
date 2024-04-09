@@ -43,6 +43,7 @@ const (
 	SchemaLocation          = "#/components/schemas/"
 	Content                 = "content"
 	ApplicationJson         = "application/json"
+	MultipartFormData       = "multipart/form-data"
 	Json                    = "json"
 	Scheme                  = "scheme"
 	Schema                  = "schema"
@@ -59,6 +60,7 @@ const (
 	Query                   = "query"
 	Path                    = "path"
 	String                  = "string"
+	Binary                  = "binary"
 	Parameters              = "parameters"
 	Format                  = "format"
 	Example                 = "example"
@@ -220,6 +222,8 @@ func assignSchemas(schemas map[string]any, modules []httpapi.Module) {
 	}
 }
 
+const FileUpload string = "FileUpload"
+
 func assignDefaultSchemas(schemas map[string]any, errors []string) {
 	// Setting error
 	schemas[Error] = map[string]any{
@@ -232,6 +236,16 @@ func assignDefaultSchemas(schemas map[string]any, errors []string) {
 	schemas[ErrorCode] = map[string]any{
 		Type: String,
 		Enum: errors,
+	}
+
+	schemas[FileUpload] = map[string]any{
+		Type: Object,
+		Properties: map[string]any{
+			"File": map[string]any{
+				Type:   String,
+				Format: Binary,
+			},
+		},
 	}
 }
 
@@ -346,9 +360,9 @@ func assignPaths(src map[string]any, modules []httpapi.Module) (err error) {
 				paths[openapiPath] = pathMethods // register the path in all paths
 			}
 
-			// By standard, open api http methods are lower cased
-			// I TRUST the developer that does not use custom non http methods
-			// TODO: validate  methods
+			// Standard convention dictates that HTTP methods should be lowercased.
+			// We trust that the developer is not using custom non-HTTP methods.
+			// TODO: Validate the methods.
 			openapiMethod := strings.ToLower(string(handler.Method))
 			_, ok = pathMethods[openapiMethod]
 			if ok {
@@ -410,19 +424,34 @@ func getRequestBody(def *httpapi.RequestDefinition) (out map[string]any) {
 	out[Required] = true
 	if def.Dto != nil {
 		location := getDtoComponentLocation(def.Dto, def.Method)
-		out[Content] = getContentWithlocation(location)
+		out[Content] = getContentWithLocation(location)
 		return
 	}
 	if def.DtoArray != nil {
 		location := getDtoComponentLocation(def.Dto, def.Method)
-		out[Content] = getContentArrayWithlocation(location)
+		out[Content] = getContentArrayWithLocation(location)
+		return
+	}
+	if len(def.FileParts) == 1 {
+		location := getFileComponentLocation()
+		out[Content] = getContentFileWithLocation(location)
 		return
 	}
 
 	return nil
 }
 
-func getContentWithlocation(location string) map[string]any {
+func getContentFileWithLocation(location string) map[string]any {
+	return map[string]any{
+		MultipartFormData: map[string]any{
+			Schema: map[string]any{
+				Ref: location,
+			},
+		},
+	}
+}
+
+func getContentWithLocation(location string) map[string]any {
 	return map[string]any{
 		ApplicationJson: map[string]any{
 			Schema: map[string]any{
@@ -432,7 +461,7 @@ func getContentWithlocation(location string) map[string]any {
 	}
 }
 
-func getContentArrayWithlocation(location string) map[string]any {
+func getContentArrayWithLocation(location string) map[string]any {
 	return map[string]any{
 		ApplicationJson: map[string]any{
 			Schema: map[string]any{
@@ -448,7 +477,7 @@ func getContentArrayWithlocation(location string) map[string]any {
 func getDefaultBadRequestResponse() (out map[string]any) {
 	out = map[string]any{
 		Description: IfClientErrorOccured,
-		Content:     getContentWithlocation(SchemaLocation + Error),
+		Content:     getContentWithLocation(SchemaLocation + Error),
 	}
 	return
 }
@@ -456,7 +485,7 @@ func getDefaultBadRequestResponse() (out map[string]any) {
 func getDefaultNotFoundResponse() (out map[string]any) {
 	out = map[string]any{
 		Description: IfResousrceWasNotFound,
-		Content:     getContentWithlocation(SchemaLocation + Error),
+		Content:     getContentWithLocation(SchemaLocation + Error),
 	}
 	return
 }
@@ -464,6 +493,18 @@ func getDefaultNotFoundResponse() (out map[string]any) {
 func getResponseBody(def httpapi.ResponseDefinition) (out map[string]any) {
 	out = map[string]any{}
 	out[Description] = def.Description
+
+	if def.IsFile {
+		out[Content] = map[string]any{
+			"application/octet-stream": map[string]any{
+				"schema": map[string]any{
+					"type":   "string",
+					"format": "binary",
+				},
+			},
+		}
+		return
+	}
 
 	if def.Dto == nil {
 		return
@@ -483,11 +524,11 @@ func getResponseBody(def httpapi.ResponseDefinition) (out map[string]any) {
 	case reflect.Array:
 		rt = rt.Elem()
 		location := getDtoComponentLocation(reflect.New(rt).Interface(), http.MethodGet)
-		out[Content] = getContentArrayWithlocation(location)
+		out[Content] = getContentArrayWithLocation(location)
 		return
 	case reflect.Struct:
 		location := getDtoComponentLocation(def.Dto, http.MethodGet)
-		out[Content] = getContentWithlocation(location)
+		out[Content] = getContentWithLocation(location)
 		return
 	default:
 		return nil
@@ -553,6 +594,10 @@ func getDtoTypeName(dtoType reflect.Type, method httpapi.HTTPMethod) string {
 
 func getDtoComponentLocation(dto any, method httpapi.HTTPMethod) string {
 	return getComponentLocation(getDtoName(dto, method))
+}
+
+func getFileComponentLocation() string {
+	return SchemaLocation + FileUpload
 }
 
 func getComponentLocation(name string) string {
@@ -717,9 +762,9 @@ func assignSchemaIfNotExist(dto any, schemas map[string]any, method httpapi.HTTP
 	if _, ok := schemas[name]; ok {
 		return
 	}
-	objectDescripton := map[string]any{}
-	objectDescripton[Type] = Object
-	objectDescripton[Properties] = map[string]any{}
+	objectDescription := map[string]any{}
+	objectDescription[Type] = Object
+	objectDescription[Properties] = map[string]any{}
 	for i := 0; i < typ.NumField(); i++ {
 
 		f := typ.Field(i)
@@ -736,22 +781,22 @@ func assignSchemaIfNotExist(dto any, schemas map[string]any, method httpapi.HTTP
 			fieldName = strings.Split(jsonTag, JsonTagSeperator)[0]
 		}
 
-		objectDescripton[Properties].(map[string]any)[fieldName] = GetSchemaField(description, method)
+		objectDescription[Properties].(map[string]any)[fieldName] = GetSchemaField(description, method)
 	}
 
-	schemas[name] = objectDescripton
+	schemas[name] = objectDescription
 	for _, v := range embededStructs {
 		assignSchemaIfNotExist(reflect.New(v.StructType).Interface(), schemas, method)
 	}
 }
 
 // Will embed any structs
-func GetBareSchema(dto any) (objectDescripton map[string]any) {
+func GetBareSchema(dto any) (objectDescription map[string]any) {
 	typ := reflect.TypeOf(dto).Elem()
 
-	objectDescripton = map[string]any{}
-	objectDescripton[Type] = Object
-	objectDescripton[Properties] = map[string]any{}
+	objectDescription = map[string]any{}
+	objectDescription[Type] = Object
+	objectDescription[Properties] = map[string]any{}
 	for i := 0; i < typ.NumField(); i++ {
 
 		f := typ.Field(i)
@@ -765,14 +810,14 @@ func GetBareSchema(dto any) (objectDescripton map[string]any) {
 		}
 
 		if description.IsStruct {
-			objectDescripton[Properties].(map[string]any)[fieldName] = GetBareSchema(reflect.New(description.StructType).Interface())
+			objectDescription[Properties].(map[string]any)[fieldName] = GetBareSchema(reflect.New(description.StructType).Interface())
 		} else {
-			objectDescripton[Properties].(map[string]any)[fieldName] = GetSchemaField(description, "")
+			objectDescription[Properties].(map[string]any)[fieldName] = GetSchemaField(description, "")
 		}
 
 	}
 
-	return objectDescripton
+	return objectDescription
 }
 
 type schemaTypeDescription struct {

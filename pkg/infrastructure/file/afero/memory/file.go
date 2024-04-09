@@ -36,10 +36,14 @@ func (u FileStorage) Store(rc io.ReadCloser, name string) error {
 	if strings.TrimSpace(name) == "" {
 		return protocol.ErrFileNameIsEmpty
 	}
-	err := u.remove(name)
-	if err != nil {
-		return err
+
+	if u.Exist(name) {
+		err := u.remove(name)
+		if err != nil {
+			return err
+		}
 	}
+
 	defer rc.Close()
 	return u.saveFile(rc, u.dir+name)
 }

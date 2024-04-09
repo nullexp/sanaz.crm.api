@@ -17,4 +17,5 @@ func main() {
 	conf := configs.ReadConfig()
 	fmt.Printf("%+v", conf)
 	fmt.Println("running")
+	initializeApi(conf)
 }

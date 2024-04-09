@@ -18,6 +18,7 @@ import (
 	"testing"
 	"time"
 
+	errorProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/error/protocol"
 	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
 	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model"
 	mlp "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/multipart"
@@ -433,7 +434,6 @@ const (
 	AppJson        = "application/json"
 	MultipartMixed = "multipart/mixed"
 	AppJsonUtf8    = "application/json; charset=utf-8"
-	AppOctedStream = "application/octet-stream"
 	AppXml         = "application/xml"
 	AppXmlUtf8     = "application/xml; charset=utf-8"
 	AppText        = "application/text"
@@ -566,7 +566,7 @@ func TestDataHandler(t *testing.T) {
 			FreeRoute: true,
 			Handler: func(req protocol.Request) {
 				td := req.MustGetDTO().(*TestDto)
-				req.Negotiate(http.StatusOK, misc.UserOperationError{ErrorCode: ErrorCode}, td)
+				req.Negotiate(http.StatusOK, errorProtocol.WrapUserOperationError(ErrorCode, "error"), td)
 			},
 		},
 		&protocol.RequestDefinition{

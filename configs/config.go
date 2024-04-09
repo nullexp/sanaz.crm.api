@@ -32,10 +32,12 @@ const (
 )
 
 type Config struct {
-	ServerMode  ServerMode `mapstructure:"mode"`
-	Port        int        `mapstructure:"port"`
-	Host        string     `mapstructure:"host"`
-	DataStorage string     `mapstructure:"data-storage"`
-	FileStorage string     `mapstructure:"file-storage"`
-	Cors        []string   `mapstructure:"cors"`
+	ServerMode      ServerMode `mapstructure:"mode"`
+	Port            int        `mapstructure:"port"`
+	Host            string     `mapstructure:"host"`
+	DataStorage     string     `mapstructure:"data-storage"`
+	DataStorageName string     `mapstructure:"data-storage-name"`
+	FileStorageName string     `mapstructure:"file-storage-name"`
+	FileStorage     string     `mapstructure:"file-storage"`
+	Cors            []string   `mapstructure:"cors"`
 }
