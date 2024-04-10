@@ -13,6 +13,10 @@ func (f *DataDefinition) GetPartName() string {
 	return f.Name
 }
 
+func (f *DataDefinition) GetSupportedTypes() []string {
+	return []string{}
+}
+
 func (f *DataDefinition) GetObject() interface{} {
 	return f.Object
 }

@@ -89,6 +89,7 @@ type (
 		GetPartName() string
 		IsSingle() bool
 		GetObject() interface{}
+		GetSupportedTypes() []string
 	}
 
 	MultipartFileDefinition interface {

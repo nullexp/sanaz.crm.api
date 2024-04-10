@@ -177,15 +177,22 @@ func (u ImageStorage) RetrieveThumbnail(name string, params ...any) (io.ReadClos
 	newData := buf.Bytes()
 
 	u.thumbStoreLock.Lock()
+	defer u.thumbStoreLock.Unlock()
+
 	err = u.fileSystem.Mkdir(getThmbDir(name), os.ModeDir)
 	if err != nil {
-		return nil, time.Time{}, err
+		pathErr, ok := err.(*os.PathError)
+		if !ok {
+			return nil, time.Time{}, err
+		}
+		if pathErr.Err != afero.ErrFileExists {
+			return nil, time.Time{}, err
+		}
 	}
 	err = u.saveFile(io.NopCloser(bytes.NewReader(newData)), getThmbDir(name)+sizeName+name)
 	if err != nil {
 		return nil, time.Time{}, err
 	}
-	u.thumbStoreLock.Unlock()
 
 	return io.NopCloser(bytes.NewReader(newData)), time.Now(), nil
 }
