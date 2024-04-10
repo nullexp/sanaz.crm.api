@@ -36,6 +36,10 @@ func (f FileDefinition) IsSingle() bool {
 	return f.Single
 }
 
+func (f FileDefinition) GetSupportedTypes() []string {
+	return f.SupportedTypes
+}
+
 const (
 	TooSmall        = "less Than Minimum size. must be atleast "
 	TooBig          = "exeeding Max size. must be lest than "

@@ -434,14 +434,14 @@ func getRequestBody(def *httpapi.RequestDefinition) (out map[string]any) {
 	}
 	if len(def.FileParts) == 1 {
 		location := getFileComponentLocation()
-		out[Content] = getContentFileWithLocation(location)
+		out[Content] = getContentFileWithLocation(location, def.FileParts[0])
 		return
 	}
 
 	return nil
 }
 
-func getContentFileWithLocation(location string) map[string]any {
+func getContentFileWithLocation(location string, def httpapi.MultipartFileDefinition) map[string]any {
 	return map[string]any{
 		MultipartFormData: map[string]any{
 			Schema: map[string]any{

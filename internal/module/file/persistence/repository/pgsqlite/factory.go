@@ -16,3 +16,7 @@ func NewFileRepoFactory(testId bool) fileRepoFactory {
 func (f fileRepoFactory) NewAsset(getter dbapi.DataContextGetter) repo.Asset {
 	return NewAsset(getter, f.testId)
 }
+
+func (f fileRepoFactory) NewImage(getter dbapi.DataContextGetter) repo.Image {
+	return NewImage(getter, f.testId)
+}

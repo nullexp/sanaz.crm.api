@@ -1,5 +1,5 @@
 package response
 
-type Asset struct {
+type Image struct {
 	Id string `json:"id"`
 }

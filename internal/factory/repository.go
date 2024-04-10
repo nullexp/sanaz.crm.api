@@ -28,3 +28,23 @@ func NewAssetRepository(name string, params ...any) repo.AssetRepoFactory {
 	}
 	panic(ErrNotImplemented)
 }
+
+func NewImageRepository(name string, params ...any) repo.ImageRepoFactory {
+	if name == "" {
+		name = Test
+	}
+
+	switch name {
+	case Test:
+		fallthrough
+	case Data:
+
+		if len(params) == 0 {
+			return fileFactory.NewFileRepoFactory(false)
+		}
+		val, _ := params[0].(bool)
+		return fileFactory.NewFileRepoFactory(val)
+
+	}
+	panic(ErrNotImplemented)
+}

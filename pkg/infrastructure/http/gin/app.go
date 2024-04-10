@@ -633,8 +633,8 @@ func (ginApp *GinApp) AnyReq(c *gin.Context) {
 			return
 		}
 
+		req.Set(v.Definition.GetName(), val.GetOperand().Value)
 		if !v.Query {
-			req.Set(v.Definition.GetName(), val.GetOperand().Value)
 			continue
 		}
 

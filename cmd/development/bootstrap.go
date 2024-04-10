@@ -20,6 +20,7 @@ func initializeApi(conf configs.Config) {
 
 	db := factory.NewDatabaseController(conf.DataStorage, []dbProtocol.EntityBased{
 		assetEntities.Asset{},
+		assetEntities.Image{},
 	}, conf.DataStorageName)
 
 	err := db.Generate()
@@ -27,7 +28,10 @@ func initializeApi(conf configs.Config) {
 		log.Error.Fatalln(err)
 	}
 	assetRepo := factory.NewAssetRepository(factory.Data, false)
+	imageRepo := factory.NewImageRepository(factory.Data, false)
+
 	fileStorage := factory.NewFileStorage(factory.Memory, conf.FileStorageName)
+	imageStorage := factory.NewImageStorage(factory.Memory, conf.FileStorageName)
 
 	// Initialize Modules
 	subjectParser := authApplication.NewSubjectParser()
@@ -37,9 +41,18 @@ func initializeApi(conf configs.Config) {
 		FileStorage:        fileStorage,
 	})
 
+	imageApplicationService := filetApplication.NewImage(filetApplication.ImageParam{
+		ImageRepoFactory:   imageRepo,
+		TransactionFactory: db,
+		ImageStorage:       imageStorage,
+	})
+
 	asset := filePresentation.NewAsset(assetApplicationService, subjectParser)
+	image := filePresentation.NewImage(imageApplicationService, subjectParser)
 
 	api.AppendModule(asset)
+	api.AppendModule(image)
+
 	api.SetContact(openapi.Contact{Name: "Hope Golestany", Email: "hopegolestany@gmail.com", URL: "https://omidgolestani.ir"})
 	api.SetInfo(openapi.Info{Version: "0.1", Description: "Api definition for clinic", Title: "Clinic Api Definition"})
 	api.SetLogPolicy(model.LogPolicy{LogBody: false, LogEnabled: false})
