@@ -5,75 +5,85 @@ import (
 	"time"
 
 	"github.com/nullexp/sanaz.crm.api/internal/module/auth/utility"
-	pkservice "github.com/nullexp/sanaz.crm.api/pkg/module/auth/utility"
 
 	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
 	dbapi "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol/specification"
 	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 	api "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 	application "github.com/nullexp/sanaz.crm.api/pkg/module/auth/application"
 	request "github.com/nullexp/sanaz.crm.api/pkg/module/auth/application/dto/request"
 	response "github.com/nullexp/sanaz.crm.api/pkg/module/auth/application/dto/response"
+	authError "github.com/nullexp/sanaz.crm.api/pkg/module/auth/model/error"
 	userRepo "github.com/nullexp/sanaz.crm.api/pkg/module/user/persistence/repository"
 )
 
-type Session struct {
-	userRepoFactory    userRepo.UserRepoFactory
+type SessionParam struct {
+	UserRepoFactory    userRepo.UserRepoFactory
 	TransactionFactory protocol.TransactionFactoryGetter
-	policy             application.TokenPolicy
-	passwordHasher     misc.Password
+	Policy             application.TokenPolicy
+	PasswordHasher     misc.Password
 }
 
-func NewSession(ufactory userRepo.UsernameGetterFactory, tFactory dbapi.DatabaseGetter, policy application.TokenPolicy, hasher misc.Password) application.Session {
-	return &Session{userRepoFactory: ufactory, dbGetter: tFactory, policy: policy, passwordHasher: hasher}
+type Session struct {
+	SessionParam
 }
 
-func (s Session) Authenticate(ctx context.Context, dto request.Session) (u response.Token, err error) {
+func NewSession(param SessionParam) application.Session {
+	return &Session{param}
+}
 
-	factory, err := s.dbGetter.GetDatabase(dto.AccessMode)
+func (s Session) Authenticate(ctx context.Context, dto request.Session) (out response.Token, err error) {
+
+	factory, err := s.TransactionFactory.GetTransactionFactory()
 	if err != nil {
-		return response.Token{}, misc.WrapUserOperationError(api.ErrorUnknownAccessMode)
+		return
 	}
+
 	tx := factory.New()
+
 	err = tx.Begin()
 	if err != nil {
 		return
 	}
+
 	defer tx.RollbackUnlessCommitted()
 
-	return s.authenticate(dto, tx)
+	out, err = s.authenticate(ctx, tx, dto)
+	if err != nil {
+		return
+	}
+	err = tx.Commit()
+	return
 }
 
-func (s Session) authenticate(ctx context.Context, dto request.Session, tx dbapi.Transaction) (response.Token, error) {
+func (s Session) authenticate(ctx context.Context, tx dbapi.Transaction, dto request.Session) (response.Token, error) {
 
 	out := response.Token{}
 
-	userRepo := s.userRepoFactory.NewUsernameGetter(tx)
-	user, err := userRepo.GetByUsername(dto.Username)
-	found := user.GetID() != 0
+	userRepo := s.UserRepoFactory.NewUser(tx)
+	user, err := userRepo.GetSingle(ctx, specification.NewQuerySpecification("username", api.QueryOperatorEqual, misc.NewOperand(dto.Username)))
+	found := user.GetUuid() != ""
 
 	if err != nil {
 		return out, err
 	}
 
 	if !found {
-		return out, misc.WrapUserOperationError(pkservice.ErrorAuthentiationError)
+		return out, authError.ErrInvalidAuth
 	}
 
-	if user.Password != s.passwordHasher.HashAndSalt(dto.Password) {
-		return out, misc.WrapUserOperationError(pkservice.ErrorAuthentiationError)
-	}
-
-	if !user.IsActive {
-		return out, misc.WrapUserOperationError(pkservice.ErrorUserInactive)
+	if user.Password != s.PasswordHasher.HashAndSalt(dto.Password) {
+		return out, authError.ErrInvalidAuth
 	}
 
 	if err != nil {
 		return out, err
 	}
-	sub := utility.NewSubject(dto.AccessMode, user.ID, 0)
-	accessExpireTime := time.Now().Add(s.policy.GetAccessTokenLivingDuration())
-	refreshExpireTime := time.Now().Add(s.policy.GetRefreshTokenLivingDuration())
+
+	sub := utility.NewSubject(user.GetUuid(), "")
+	accessExpireTime := time.Now().Add(s.Policy.GetAccessTokenLivingDuration())
+	refreshExpireTime := time.Now().Add(s.Policy.GetRefreshTokenLivingDuration())
 
 	access, err := utility.CreateToken(sub, accessExpireTime)
 	if err != nil {
@@ -93,22 +103,15 @@ func (s Session) authenticate(ctx context.Context, dto request.Session, tx dbapi
 	return out, nil
 }
 
-func (s Session) RefreshToken(ctx context.Context, rs request.RefreshSession) (response.AccessToken, error) {
+func (s Session) RefreshToken(ctx context.Context, rs request.RefreshSession) (out response.AccessToken, err error) {
 
 	clm, err := utility.GetToken(rs.RefreshToken)
 	if err != nil {
-		return response.AccessToken{}, misc.WrapUserOperationError(pkservice.ErrorInvalidToken)
+		return response.AccessToken{}, authError.ErrInvalidToken
 	}
 
-	return s.refreshToken(clm.Subject, rs)
-}
-
-func (s Session) refreshToken(ctx context.Context, sub string, rs request.RefreshSession) (response.AccessToken, error) {
-
-	out := response.AccessToken{}
-
-	accessExpireTime := time.Now().Add(s.policy.GetAccessTokenLivingDuration())
-	access, err := utility.CreateTokenWithText(sub, accessExpireTime)
+	accessExpireTime := time.Now().Add(s.Policy.GetAccessTokenLivingDuration())
+	access, err := utility.CreateTokenWithText(clm.Subject, accessExpireTime)
 	if err != nil {
 		return out, err
 	}

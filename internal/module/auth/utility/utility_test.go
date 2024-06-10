@@ -13,7 +13,7 @@ import (
 
 func TestJwtToken(t *testing.T) {
 	t.Run("Must create and get valid token", func(t *testing.T) {
-		got, err := CreateToken(misc.Subject{AccessMode: "shiraz", UserId: "1", SubAccess: "10"}, time.Now().Add(10*time.Minute))
+		got, err := CreateToken(misc.Subject{UserId: "1", SubAccess: "10"}, time.Now().Add(10*time.Minute))
 
 		assert.Equal(t, nil, err)
 
@@ -23,7 +23,7 @@ func TestJwtToken(t *testing.T) {
 	})
 
 	t.Run("Must return error on invalid signature", func(t *testing.T) {
-		got, err := CreateToken(misc.Subject{AccessMode: "shiraz", UserId: "1", SubAccess: "10"}, time.Now().Add(10*time.Minute))
+		got, err := CreateToken(misc.Subject{UserId: "1", SubAccess: "10"}, time.Now().Add(10*time.Minute))
 		got = got + "a"
 		assert.Equal(t, nil, err)
 
@@ -32,7 +32,7 @@ func TestJwtToken(t *testing.T) {
 	})
 
 	t.Run("Check token: must verify ok", func(t *testing.T) {
-		got, err := CreateToken(misc.Subject{AccessMode: "shiraz", UserId: "1", SubAccess: "10"}, time.Now().Add(10*time.Minute))
+		got, err := CreateToken(misc.Subject{UserId: "1", SubAccess: "10"}, time.Now().Add(10*time.Minute))
 
 		assert.Equal(t, nil, err)
 
@@ -42,7 +42,7 @@ func TestJwtToken(t *testing.T) {
 	})
 
 	t.Run("Check token: must return false on bad signature", func(t *testing.T) {
-		data, _ := json.Marshal(misc.Subject{AccessMode: "shiraz", UserId: "1", SubAccess: "10"})
+		data, _ := json.Marshal(misc.Subject{UserId: "1", SubAccess: "10"})
 
 		j := jwt.New(jwt.GetSigningMethod("HS256"))
 		j.Claims = misc.StandardClaims{Subject: string(data), ExpiresAt: time.Now().Unix(), Identity: uuid.NewString()}

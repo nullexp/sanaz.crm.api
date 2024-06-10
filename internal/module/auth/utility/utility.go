@@ -40,8 +40,8 @@ func MustGetSubject(subject string) misc.Subject {
 	return out
 }
 
-func NewSubject(accessMode string, userId string, subAccess string) misc.Subject {
-	return misc.Subject{AccessMode: accessMode, UserId: userId, SubAccess: subAccess}
+func NewSubject(userId string, subAccess string) misc.Subject {
+	return misc.Subject{UserId: userId, SubAccess: subAccess}
 }
 
 func CreateToken(sb misc.Subject, expire time.Time) (string, error) {

@@ -1,9 +1,8 @@
 package misc
 
 type Subject struct {
-	AccessMode string `json:"accessMode"`
-	UserId     string `json:"userId"`
-	SubAccess  string `json:"subAccess"`
+	UserId    string `json:"userId"`
+	SubAccess string `json:"subAccess"`
 }
 
 type SubjectParser interface {
