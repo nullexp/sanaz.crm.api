@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/module/file/application/dto/request"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/module/file/application/dto/response"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/module/file/application/dto/request"
+	"github.com/nullexp/sanaz.crm.api/pkg/module/file/application/dto/response"
 )
 
 type Asset interface {

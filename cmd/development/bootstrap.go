@@ -1,18 +1,18 @@
 package main
 
 import (
-	"git.omidgolestani.ir/clinic/crm.api/configs"
-	"git.omidgolestani.ir/clinic/crm.api/internal/factory"
-	authApplication "git.omidgolestani.ir/clinic/crm.api/internal/module/auth/application/service"
-	filetApplication "git.omidgolestani.ir/clinic/crm.api/internal/module/file/application/service"
-	assetEntities "git.omidgolestani.ir/clinic/crm.api/internal/module/file/persistence/repository/pgsqlite"
-	filePresentation "git.omidgolestani.ir/clinic/crm.api/internal/module/file/presentation"
+	"github.com/nullexp/sanaz.crm.api/configs"
+	"github.com/nullexp/sanaz.crm.api/internal/factory"
+	authApplication "github.com/nullexp/sanaz.crm.api/internal/module/auth/application/service"
+	filetApplication "github.com/nullexp/sanaz.crm.api/internal/module/file/application/service"
+	assetEntities "github.com/nullexp/sanaz.crm.api/internal/module/file/persistence/repository/pgsqlite"
+	filePresentation "github.com/nullexp/sanaz.crm.api/internal/module/file/presentation"
 
-	dbProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/openapi"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/log"
-	assetError "git.omidgolestani.ir/clinic/crm.api/pkg/module/file/model/error"
+	dbProtocol "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol/model"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol/model/openapi"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/log"
+	assetError "github.com/nullexp/sanaz.crm.api/pkg/module/file/model/error"
 )
 
 func initializeApi(conf configs.Config) {

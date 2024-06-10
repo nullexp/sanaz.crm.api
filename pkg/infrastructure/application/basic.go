@@ -3,11 +3,11 @@ package application
 import (
 	"context"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/gorm"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/gorm/pg"
-	database "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol/specification"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/gorm"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/gorm/pg"
+	database "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol/specification"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 )
 
 type Dto interface {

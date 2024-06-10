@@ -1,8 +1,8 @@
 package factory
 
 import (
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/cache/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/cache/redis"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/cache/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/cache/redis"
 )
 
 type CacheType string

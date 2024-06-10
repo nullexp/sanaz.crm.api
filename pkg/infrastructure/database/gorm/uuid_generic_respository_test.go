@@ -5,12 +5,12 @@ import (
 	"testing"
 	"time"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/factory"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/gorm/pg"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
-	dbspec "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol/specification"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/google/uuid"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/factory"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/gorm/pg"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
+	dbspec "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol/specification"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 	"github.com/stretchr/testify/assert"
 )
 

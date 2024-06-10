@@ -3,7 +3,7 @@ package mongo
 import (
 	"context"
 
-	database "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
+	database "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
 )
 
 type MapperRepository[T, J database.EntityBased] struct {

@@ -1,6 +1,6 @@
 package utility
 
-import "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
+import "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol"
 
 func GetByType[T any](key string, r protocol.Request) ([]*T, bool) {
 	raw, ok := r.Get(key)

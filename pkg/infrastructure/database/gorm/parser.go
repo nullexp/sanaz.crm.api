@@ -1,8 +1,8 @@
 package gorm
 
 import (
-	dbspec "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol/specification"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+	dbspec "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol/specification"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 	"gorm.io/gorm"
 )
 

@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol/specification"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/module/file/model/entity"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol/specification"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
+	"github.com/nullexp/sanaz.crm.api/pkg/module/file/model/entity"
 )
 
 type Asset interface {

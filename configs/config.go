@@ -1,7 +1,7 @@
 package configs
 
 import (
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/log"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/log"
 	"github.com/spf13/viper"
 )
 

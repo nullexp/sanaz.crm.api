@@ -1,9 +1,9 @@
 package factory
 
 import (
-	mqtt "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/broker/mqtt"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/broker/protocol"
-	redis "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/broker/redis"
+	mqtt "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/broker/mqtt"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/broker/protocol"
+	redis "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/broker/redis"
 )
 
 type BrokerType string

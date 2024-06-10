@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"sync"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/broker/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/broker/protocol"
 )
 
 type memoryResponder struct {

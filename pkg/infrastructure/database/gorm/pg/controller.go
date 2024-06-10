@@ -3,8 +3,8 @@ package pg
 import (
 	"fmt"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
 	"github.com/jackc/pgx/v5/pgconn"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
 	"gorm.io/gorm"
 )
 

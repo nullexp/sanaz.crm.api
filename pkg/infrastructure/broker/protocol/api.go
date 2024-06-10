@@ -6,9 +6,9 @@ import (
 	"errors"
 	"time"
 
-	protError "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/error/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/log"
 	"github.com/google/uuid"
+	protError "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/error/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/log"
 )
 
 type ReturnMessage[T any] struct {

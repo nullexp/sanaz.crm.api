@@ -1,10 +1,10 @@
 package factory
 
 import (
-	dmem "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/afero/disk"
-	fmem "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/afero/memory"
+	dmem "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/afero/disk"
+	fmem "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/afero/memory"
 
-	fileProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
+	fileProtocol "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/protocol"
 )
 
 const (

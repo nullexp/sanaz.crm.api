@@ -1,4 +1,4 @@
-module git.omidgolestani.ir/clinic/crm.api
+module github.com/nullexp/sanaz.crm.api
 
 go 1.22.1
 

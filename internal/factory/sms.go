@@ -1,8 +1,8 @@
 package factory
 
 // import (
-// 	smsImpl "git.omidgolestani.ir/clinic/crm.api/internal/infrastructure/sms"
-// 	infra "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/sms"
+// 	smsImpl "github.com/nullexp/sanaz.crm.api/internal/infrastructure/sms"
+// 	infra "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/sms"
 // )
 
 // func NewSMSSender(name string, params ...any) infra.SMSSender {

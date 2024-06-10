@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/factory"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/google/uuid"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/factory"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )

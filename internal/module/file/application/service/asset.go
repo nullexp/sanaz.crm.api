@@ -3,15 +3,15 @@ package service
 import (
 	"context"
 
-	"git.omidgolestani.ir/clinic/crm.api/internal/module/file/application/cast"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
-	infraError "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/error/protocol"
-	fileProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/module/file/application/dto/request"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/module/file/application/dto/response"
-	appService "git.omidgolestani.ir/clinic/crm.api/pkg/module/file/application/service"
-	assetError "git.omidgolestani.ir/clinic/crm.api/pkg/module/file/model/error"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/module/file/persistence/repository"
+	"github.com/nullexp/sanaz.crm.api/internal/module/file/application/cast"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
+	infraError "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/error/protocol"
+	fileProtocol "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/module/file/application/dto/request"
+	"github.com/nullexp/sanaz.crm.api/pkg/module/file/application/dto/response"
+	appService "github.com/nullexp/sanaz.crm.api/pkg/module/file/application/service"
+	assetError "github.com/nullexp/sanaz.crm.api/pkg/module/file/model/error"
+	"github.com/nullexp/sanaz.crm.api/pkg/module/file/persistence/repository"
 )
 
 type AssetParam struct {

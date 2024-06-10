@@ -1,6 +1,6 @@
 package specification
 
-import "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
+import "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
 
 type Executable interface {
 	Execute(protocol.Query) any

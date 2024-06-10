@@ -3,9 +3,9 @@ package pg
 import (
 	"fmt"
 
-	database "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
-	dbspec "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol/specification"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+	database "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
+	dbspec "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol/specification"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 	"gorm.io/gorm"
 )
 

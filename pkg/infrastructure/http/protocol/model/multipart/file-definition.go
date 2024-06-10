@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"mime/multipart"
 
-	http "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/h2non/filetype"
 	"github.com/h2non/filetype/types"
+	http "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 )
 
 type FileDefinition struct {

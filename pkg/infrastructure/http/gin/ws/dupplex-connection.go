@@ -1,9 +1,9 @@
 package ws
 
 import (
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/gorilla/websocket"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol/model"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 )
 
 type DuplexConnection struct {

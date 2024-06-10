@@ -4,7 +4,7 @@ import (
 	"os"
 	"syscall"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/protocol"
 	"github.com/spf13/afero"
 )
 

@@ -1,7 +1,7 @@
 package cast
 
 import (
-	"git.omidgolestani.ir/clinic/crm.api/pkg/module/file/model/entity"
+	"github.com/nullexp/sanaz.crm.api/pkg/module/file/model/entity"
 )
 
 func ToAssetEntity(fileName, mimeType string) entity.Asset {

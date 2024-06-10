@@ -9,10 +9,10 @@ import (
 	"strconv"
 	"strings"
 
-	httpapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/openapi"
-	response "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/response"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+	httpapi "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol/model/openapi"
+	response "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol/response"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 )
 
 const (

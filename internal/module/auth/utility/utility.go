@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/golang-jwt/jwt"
 	"github.com/google/uuid"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 )
 
 var (

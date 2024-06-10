@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	httpapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/gin-gonic/gin"
+	httpapi "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 	"github.com/stretchr/testify/assert"
 )
 

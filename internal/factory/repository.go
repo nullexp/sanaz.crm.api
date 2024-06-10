@@ -1,8 +1,8 @@
 package factory
 
 import (
-	fileFactory "git.omidgolestani.ir/clinic/crm.api/internal/module/file/persistence/repository/pgsqlite"
-	repo "git.omidgolestani.ir/clinic/crm.api/pkg/module/file/persistence/repository"
+	fileFactory "github.com/nullexp/sanaz.crm.api/internal/module/file/persistence/repository/pgsqlite"
+	repo "github.com/nullexp/sanaz.crm.api/pkg/module/file/persistence/repository"
 )
 
 const (

@@ -3,8 +3,8 @@ package multipart
 import (
 	"time"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
-	http "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/protocol"
+	http "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol"
 )
 
 type filePart struct {

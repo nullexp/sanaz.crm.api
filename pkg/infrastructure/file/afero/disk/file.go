@@ -7,9 +7,9 @@ import (
 	"sync"
 	"time"
 
-	aferoUtil "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/afero/utility"
-	protocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/log"
+	aferoUtil "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/afero/utility"
+	protocol "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/log"
 	"github.com/spf13/afero"
 )
 

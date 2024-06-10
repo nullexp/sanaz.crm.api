@@ -4,9 +4,9 @@ import (
 	"strings"
 	"time"
 
-	genericErrors "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/error"
-	errorProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/error/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+	genericErrors "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/error"
+	errorProtocol "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/error/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 )
 
 func ParseQuery(def misc.QueryDefinition, qvalue string) (misc.Query, error) {

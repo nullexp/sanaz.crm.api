@@ -11,8 +11,8 @@ import (
 	"os"
 	"time"
 
-	fileProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+	fileProtocol "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 )
 
 var ErrMessageTooLarge = errors.New("multipart: message too large")

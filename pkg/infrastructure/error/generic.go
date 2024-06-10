@@ -3,8 +3,8 @@ package error
 import (
 	"context"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/error/protocol"
 	"github.com/go-playground/validator"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/error/protocol"
 )
 
 const (

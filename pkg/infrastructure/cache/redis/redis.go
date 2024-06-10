@@ -3,7 +3,7 @@ package redis
 import (
 	"context"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/cache/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/cache/protocol"
 	redis "github.com/redis/go-redis/v9"
 )
 

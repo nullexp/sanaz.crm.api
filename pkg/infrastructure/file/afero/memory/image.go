@@ -12,11 +12,11 @@ import (
 	"sync"
 	"time"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/afero/utility"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/log"
 	"github.com/disintegration/imaging"
 	"github.com/h2non/filetype"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/afero/utility"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/log"
 	"github.com/spf13/afero"
 )
 

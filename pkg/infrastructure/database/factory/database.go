@@ -3,10 +3,10 @@ package factory
 import (
 	"errors"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/gorm/pg"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/gorm/sqlite"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/mongo"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/gorm/pg"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/gorm/sqlite"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/mongo"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
 )
 
 type DatabaseType string

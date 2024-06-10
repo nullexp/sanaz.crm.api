@@ -3,8 +3,8 @@ package factory
 import (
 	"errors"
 
-	ginapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/gin"
-	http "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
+	ginapi "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/gin"
+	http "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol"
 )
 
 const (

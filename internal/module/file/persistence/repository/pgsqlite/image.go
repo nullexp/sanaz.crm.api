@@ -3,13 +3,13 @@ package pgsqlite
 import (
 	"time"
 
-	gormh "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/gorm"
-	pg "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/gorm/pg"
-	dbapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/module/file/model/entity"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/module/file/persistence/repository"
 	"github.com/google/uuid"
+	gormh "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/gorm"
+	pg "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/gorm/pg"
+	dbapi "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
+	"github.com/nullexp/sanaz.crm.api/pkg/module/file/model/entity"
+	"github.com/nullexp/sanaz.crm.api/pkg/module/file/persistence/repository"
 	"gorm.io/gorm"
 )
 

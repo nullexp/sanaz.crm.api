@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"git.omidgolestani.ir/clinic/crm.api/configs"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/log"
+	"github.com/nullexp/sanaz.crm.api/configs"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/log"
 )
 
 func init() {

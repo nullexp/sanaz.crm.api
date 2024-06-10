@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/openapi"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol/model/openapi"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 	"github.com/stretchr/testify/assert"
 )
 

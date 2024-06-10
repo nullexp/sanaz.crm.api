@@ -6,10 +6,10 @@ import (
 	"net/http/httptest"
 	"net/textproto"
 
-	fileProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/file/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/openapi"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+	fileProtocol "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/file/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol/model"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol/model/openapi"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 )
 
 type (

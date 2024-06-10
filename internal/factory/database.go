@@ -1,8 +1,8 @@
 package factory
 
 import (
-	dbimpl "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/gorm/sqlite"
-	db "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
+	dbimpl "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/gorm/sqlite"
+	db "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
 )
 
 const Sqlite = "sqlite"

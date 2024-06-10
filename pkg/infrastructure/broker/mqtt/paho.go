@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/broker/protocol"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/broker/protocol"
 )
 
 const defaultTimeOut = time.Second * 5

@@ -3,7 +3,7 @@ package gin
 import (
 	"net/http"
 
-	httpapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
+	httpapi "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol"
 )
 
 type PermissionManager struct {

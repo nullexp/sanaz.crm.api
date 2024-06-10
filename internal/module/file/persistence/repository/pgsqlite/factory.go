@@ -1,8 +1,8 @@
 package pgsqlite
 
 import (
-	dbapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
-	repo "git.omidgolestani.ir/clinic/crm.api/pkg/module/file/persistence/repository"
+	dbapi "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
+	repo "github.com/nullexp/sanaz.crm.api/pkg/module/file/persistence/repository"
 )
 
 type fileRepoFactory struct {

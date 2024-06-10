@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/cache/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/cache/protocol"
 	cache "github.com/patrickmn/go-cache"
 )
 

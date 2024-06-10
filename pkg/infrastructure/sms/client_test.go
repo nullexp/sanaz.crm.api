@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/sms/dto"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/sms/dto"
 )
 
 const (

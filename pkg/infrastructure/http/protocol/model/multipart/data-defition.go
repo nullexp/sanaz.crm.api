@@ -1,6 +1,6 @@
 package multipart
 
-import http "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
+import http "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol"
 
 type DataDefinition struct {
 	Name     string

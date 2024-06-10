@@ -1,8 +1,8 @@
-package application
+package service
 
 import (
-	utility "git.omidgolestani.ir/clinic/crm.api/internal/module/auth/utility"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+	utility "github.com/nullexp/sanaz.crm.api/internal/module/auth/utility"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 )
 
 type JsonSubjectParser struct{}

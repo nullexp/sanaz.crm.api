@@ -3,7 +3,7 @@ package gin
 import (
 	"testing"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 	"github.com/stretchr/testify/assert"
 )
 

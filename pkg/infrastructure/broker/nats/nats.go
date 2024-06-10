@@ -5,9 +5,9 @@ import (
 	"errors"
 	"time"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/broker/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/log"
 	"github.com/nats-io/nats.go"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/broker/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/log"
 )
 
 func init() {

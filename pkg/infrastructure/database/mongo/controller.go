@@ -3,7 +3,7 @@ package mongo
 import (
 	"context"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
 )
 
 type MongoController struct {

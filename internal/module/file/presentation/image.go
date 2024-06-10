@@ -4,16 +4,16 @@ import (
 	"context"
 	"net/http"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
 	"github.com/google/uuid"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/module/file/application/dto/request"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/module/file/application/dto/response"
-	application "git.omidgolestani.ir/clinic/crm.api/pkg/module/file/application/service"
+	"github.com/nullexp/sanaz.crm.api/pkg/module/file/application/dto/request"
+	"github.com/nullexp/sanaz.crm.api/pkg/module/file/application/dto/response"
+	application "github.com/nullexp/sanaz.crm.api/pkg/module/file/application/service"
 
-	httpapi "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/multipart"
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/http/protocol/model/openapi"
+	httpapi "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol/model/multipart"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol/model/openapi"
 )
 
 const ImageBaseURL = "/images"

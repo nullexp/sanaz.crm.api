@@ -3,7 +3,7 @@ package request
 import (
 	"context"
 
-	infraError "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/error"
+	infraError "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/error"
 )
 
 type Image struct {

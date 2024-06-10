@@ -3,7 +3,7 @@ package ws
 import (
 	"encoding/json"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 )
 
 type JsonDtoMessage struct {

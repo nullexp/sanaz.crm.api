@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+	"github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 )
 
 func GetIdExistSpecification(id any) Specification {

@@ -1,7 +1,7 @@
 package error
 
 import (
-	errorProtocol "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/error/protocol"
+	errorProtocol "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/error/protocol"
 )
 
 const (

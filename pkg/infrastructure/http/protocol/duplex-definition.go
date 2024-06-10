@@ -1,6 +1,6 @@
 package protocol
 
-import "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/misc"
+import "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/misc"
 
 type (
 	DuplexHandler           func(msg DuplexMessage)

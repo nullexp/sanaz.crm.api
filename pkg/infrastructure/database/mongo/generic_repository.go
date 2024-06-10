@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"time"
 
-	database "git.omidgolestani.ir/clinic/crm.api/pkg/infrastructure/database/protocol"
 	"github.com/google/uuid"
+	database "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/database/protocol"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
