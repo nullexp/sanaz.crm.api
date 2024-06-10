@@ -1,6 +1,7 @@
 package protocol
 
 import (
+	"context"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -78,7 +79,7 @@ type (
 	}
 
 	Verifier interface {
-		Verify() error
+		Verify(context.Context) error
 	}
 
 	Action     func(req Request)
@@ -99,7 +100,7 @@ type (
 
 	MultipartValueDefinition interface {
 		MultipartDefinition
-		Verify() error
+		Verify(context.Context) error
 	}
 
 	Multipart interface {

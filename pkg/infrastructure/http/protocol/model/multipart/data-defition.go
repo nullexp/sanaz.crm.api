@@ -1,6 +1,10 @@
 package multipart
 
-import http "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol"
+import (
+	"context"
+
+	http "github.com/nullexp/sanaz.crm.api/pkg/infrastructure/http/protocol"
+)
 
 type DataDefinition struct {
 	Name     string
@@ -29,8 +33,8 @@ func (f *DataDefinition) IsOptional() bool {
 	return f.Optional
 }
 
-func (f *DataDefinition) Verify() error {
-	return f.Object.Verify()
+func (f *DataDefinition) Verify(context.Context) error {
+	return f.Object.Verify(context.Background())
 }
 
 const UnknownData = "unknown data"

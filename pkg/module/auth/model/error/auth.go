@@ -12,5 +12,5 @@ const (
 	AuthInvalidTokenDesc string                  = "توکن ارسالی نادرست است"
 )
 
-var ErrInvalidAuth = errorProtocol.NewNotFoundError(AuthNotFoundKey, AuthNotFoundDesc)
-var ErrInvalidToken = errorProtocol.NewNotFoundError(AuthInvalidTokenKey, AuthInvalidTokenDesc)
+var ErrInvalidAuth = errorProtocol.NewUserOperationError(AuthNotFoundKey, AuthNotFoundDesc)
+var ErrInvalidToken = errorProtocol.NewUserOperationError(AuthInvalidTokenKey, AuthInvalidTokenDesc)

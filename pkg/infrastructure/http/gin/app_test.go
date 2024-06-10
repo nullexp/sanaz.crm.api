@@ -2,6 +2,7 @@ package gin
 
 import (
 	"bytes"
+	"context"
 	"crypto/rand"
 	"encoding/json"
 	"encoding/xml"
@@ -461,7 +462,7 @@ func (t *TestDto) GetObject() interface{} {
 	return t
 }
 
-func (t *TestDto) Verify() error {
+func (t *TestDto) Verify(context.Context) error {
 	if t.Id != Id {
 		return errors.New("Expect ID")
 	}
@@ -472,7 +473,7 @@ type anotherDto struct {
 	Passion string `json:"passion"`
 }
 
-func (*anotherDto) Verify() error {
+func (*anotherDto) Verify(context.Context) error {
 	return nil
 }
 

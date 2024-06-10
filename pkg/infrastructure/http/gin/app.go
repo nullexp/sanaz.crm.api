@@ -2,6 +2,7 @@ package gin
 
 import (
 	"bytes"
+	"context"
 	"embed"
 	"encoding/json"
 	"fmt"
@@ -439,7 +440,7 @@ func loop(duplexCon *wsmodel.DuplexConnection, topics map[string]*httpapi.Duplex
 				}
 				verifier, ok := dto.(httpapi.Verifier)
 				if ok {
-					if err := verifier.Verify(); err != nil {
+					if err := verifier.Verify(context.Background()); err != nil {
 						_ = duplexCon.SendError(response.ValidationError, err.Error())
 						continue
 					}
@@ -573,7 +574,7 @@ func (ginApp *GinApp) AnyReq(c *gin.Context) {
 
 		verifier, ok := copy.(httpapi.Verifier)
 		if ok {
-			if err := verifier.Verify(); err != nil {
+			if err := verifier.Verify(context.Background()); err != nil {
 				req.SetBadRequest(err.Error(), response.ValidationError)
 				return
 			}
@@ -599,7 +600,7 @@ func (ginApp *GinApp) AnyReq(c *gin.Context) {
 		for i := 0; i < s.Len(); i++ {
 			verifier, ok := s.Index(i).Interface().(httpapi.Verifier)
 			if ok {
-				if err := verifier.Verify(); err != nil {
+				if err := verifier.Verify(context.Background()); err != nil {
 					req.SetBadRequest(err.Error(), response.ValidationError)
 					return
 				}
@@ -733,7 +734,7 @@ func (ginApp *GinApp) AnyReq(c *gin.Context) {
 			}
 			verifier, ok := copy.(httpapi.Verifier)
 			if ok {
-				if err := verifier.Verify(); err != nil {
+				if err := verifier.Verify(context.Background()); err != nil {
 					req.SetBadRequest(err.Error(), response.ValidationError)
 					return
 				}

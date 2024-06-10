@@ -11,6 +11,6 @@ type Session struct {
 	Password string `json:"password"  validate:"required,gte=1,lte=100"`
 }
 
-func (a Session) Validate(ctx context.Context) error {
+func (a Session) Verify(ctx context.Context) error {
 	return infraError.Validate(ctx, a)
 }

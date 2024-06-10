@@ -10,6 +10,6 @@ type RefreshSession struct {
 	RefreshToken string `json:"refreshToken" validate:"required,gte=1,lte=300"`
 }
 
-func (a RefreshSession) Validate(ctx context.Context) error {
+func (a RefreshSession) Verify(ctx context.Context) error {
 	return infraError.Validate(ctx, a)
 }
